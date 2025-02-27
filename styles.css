@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+body {
+    background-color: black; /* Default black background */
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+
+main {
+    margin-top: 0px; /* Adjust based on need */
+}
+
+/* Top section with gradient fade-in */
+.top-section {
+    position: relative;
+    height: 100vh; /* Full screen height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Gradient background only for top section */
+.top-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% -20%, #5b003b, #49002e, #370022, #260016, #16000b, #080003, #010000, #000000);
+    z-index: -1;
+    opacity: 0;
+    animation: fadeInBackground 2s ease-in-out forwards;
+}
+
+/* Scrollable black section */
+.scroll-section {
+    height: 150vh; /* Extra height for scrolling */
+    background: black;
+    padding: 50px;
+}
+
+/* Text styles (visible from the start) */
+.name {
+    font-family: system-ui;
+    font-weight: 700;
+    font-size: 54px;
+    color: rgb(250, 250, 249);
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-family: system-ui;
+    font-weight: 700;
+    font-size: 54px;
+    padding: 0 10px;
+    color: rgb(250, 250, 249);
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.designation {
+    font-family: system-ui;
+    font-weight: 500;
+    font-size: 17px;
+    color: rgb(250, 250, 249);
+    text-align: center;
+}
+.skill {
+    font-family: system-ui;
+    font-weight: 300;
+    font-size: 17px;
+    color: rgb(250, 250, 249);
+    text-align: center;
+}
+
+.skill a {
+    color: inherit; /* Keeps text color same as surrounding text */
+    text-decoration: none; /* Removes default underline */
+    font-size: 15px;
+    font-weight: 500;
+    
+  }
+
+  .skill a:hover {
+    opacity: 0.5; /* Change color on hover */
+  }
+
+/* Social icons */
+svg {
+    width: 25px;
+    height: 25px;
+    fill: #ffffff;
+    margin-bottom: 25px;
+}
+
+.linkheader a svg {
+    transition: opacity 0.18s ease-in-out; /* Smooth fade effect */
+}
+
+.linkheader a:hover svg {
+    opacity: 0.5; /* Adjust opacity on hover */
+}
+
+.linkheader {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+
+.container {
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 780px;
+    margin: auto;
+}
+
+.skill-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    max-width: 550px;
+    margin: auto;
+    margin-bottom: 170px;
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 540px;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #888;
+    font-family: "Inter", sans-serif;
+}
+
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+.links {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+.section-title {
+    text-align: center;
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 20px;
+}
+.item {
+    color: white;
+    font-size: 18px;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3); /* Lighter underline */
+    text-decoration-thickness: 1px; /* Thinner underline */
+    text-underline-offset: 3px; /* Adjust spacing */
+}
+
+.item:hover {
+    color: #888;
+    text-decoration-color: rgba(255, 255, 255, 0.6); /* Slightly darker on hover */
+}
+
+.description {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+/* Background fade-in animation */
+@keyframes fadeInBackground {
+    0% {
+        opacity: 0;
+    }
+    80% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 1;
+    }
+}
