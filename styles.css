@@ -4,7 +4,7 @@
 
 
 body {
-    background-color: black; /* Default black background */
+    background-color: black; 
     margin: 0;
     padding: 0;
     color: #ffffff;
@@ -13,13 +13,13 @@ body {
 
 
 main {
-    margin-top: 0px; /* Adjust based on need */
+    margin-top: 0px; 
 }
 
-/* Top section with gradient fade-in */
+
 .top-section {
     position: relative;
-    height: 100vh; /* Full screen height */
+    height: 100vh; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,7 +28,7 @@ main {
     overflow: hidden;
 }
 
-/* Gradient background only for top section */
+
 .top-section::before {
     content: "";
     position: absolute;
@@ -42,14 +42,14 @@ main {
     animation: fadeInBackground 2s ease-in-out forwards;
 }
 
-/* Scrollable black section */
+
 .scroll-section {
-    height: 150vh; /* Extra height for scrolling */
+    height: 150vh;
     background: black;
     padding: 50px;
 }
 
-/* Text styles (visible from the start) */
+
 .name {
     font-family: system-ui;
     font-weight: 700;
@@ -87,18 +87,18 @@ main {
 }
 
 .skill a {
-    color: inherit; /* Keeps text color same as surrounding text */
-    text-decoration: none; /* Removes default underline */
+    color: inherit; 
+    text-decoration: none; 
     font-size: 15px;
     font-weight: 500;
     
   }
 
   .skill a:hover {
-    opacity: 0.5; /* Change color on hover */
+    opacity: 0.5;
   }
 
-/* Social icons */
+
 svg {
     width: 25px;
     height: 25px;
@@ -107,11 +107,11 @@ svg {
 }
 
 .linkheader a svg {
-    transition: opacity 0.18s ease-in-out; /* Smooth fade effect */
+    transition: opacity 0.18s ease-in-out;
 }
 
 .linkheader a:hover svg {
-    opacity: 0.5; /* Adjust opacity on hover */
+    opacity: 0.5; 
 }
 
 .linkheader {
@@ -124,10 +124,10 @@ svg {
 .container {
     padding: 0 20px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-    max-width: 780px;
-    margin: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    max-width: 1180px;
+    margin: 0 auto;
 }
 
 .skill-card {
@@ -154,36 +154,38 @@ footer{
 
 
 .section {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 50px;
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
+
+.section .section-title {
+    grid-column: span 2;
+    margin-bottom: 10px;
+}
+
 .links {
     display: flex;
     flex-direction: column;
     text-align: center;
     gap: 10px;
-    margin-bottom: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
-.section-title {
-    text-align: center;
-    font-size: 16px;
-    color: #888;
-    margin-bottom: 20px;
-}
+
 .item {
     color: white;
     font-size: 18px;
     text-decoration: underline;
-    text-decoration-color: rgba(255, 255, 255, 0.3); /* Lighter underline */
-    text-decoration-thickness: 1px; /* Thinner underline */
-    text-underline-offset: 3px; /* Adjust spacing */
+    text-decoration-color: rgba(255, 255, 255, 0.3); 
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
 }
 
 .item:hover {
     color: #888;
-    text-decoration-color: rgba(255, 255, 255, 0.6); /* Slightly darker on hover */
+    text-decoration-color: rgba(255, 255, 255, 0.6); 
 }
 
 .description {
@@ -192,7 +194,6 @@ footer{
     margin-bottom: 15px;
 }
 
-/* Background fade-in animation */
 @keyframes fadeInBackground {
     0% {
         opacity: 0;
@@ -202,5 +203,133 @@ footer{
     }
     100% {
         opacity: 1;
+    }
+}
+
+
+.project-card {
+    background-color: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.project-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: #ffffff;
+}
+
+.project-link {
+    display: flex;
+    align-items: center;
+}
+
+.project-icon {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.project-icon:hover {
+    opacity: 1;
+}
+
+.project-creator {
+    font-size: 14px;
+    color: #888;
+    margin: 5px 0;
+}
+
+.project-description {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #ccc;
+}
+
+.project-achievements ul {
+    padding-left: 20px;
+    margin: 15px 0;
+}
+
+.project-achievements li {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+
+.project-technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.tech-tag {
+    background-color: #1a1a1a;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.sidebar {
+    grid-column: 3;
+}
+
+@media (max-width: 992px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    
+    .section {
+        grid-column: 1;
+        grid-template-columns: 1fr;
+    }
+    
+    .section .section-title {
+        grid-column: 1;
+    }
+    
+    .sidebar {
+        grid-column: 1;
+    }
+    
+    .project-card {
+        padding: 15px;
+    }
+    
+    .project-technologies {
+        flex-wrap: wrap;
+    }
+    
+    footer {
+        gap: 20px;
+        flex-direction: column;
     }
 }
