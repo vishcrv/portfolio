@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>what i learned today while designing a python cli book manager — vishnu cv</title>
+<link rel="icon" type="image/png" href="../imgs/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --text: #f0f0f0;
+    --pink: #f2c4ce;
+    --dim: #888;
+    --dim2: #555;
+    --border: #1c1c1c;
+    --code-bg: #111;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  :root.light {
+    --bg: #fafafa;
+    --text: #111;
+    --pink: #9b4d6a;
+    --dim: #666;
+    --dim2: #999;
+    --border: #e0e0e0;
+    --code-bg: #f0f0f0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* -- Reading progress bar -- */
+  #progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--pink);
+    z-index: 1000;
+    transition: width 0.08s linear;
+  }
+
+  /* -- Layout -- */
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* -- Nav -- */
+  nav {
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .site-name {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--pink);
+    letter-spacing: 0.06em;
+    text-decoration: none;
+  }
+
+  .site-name:hover { opacity: 0.7; }
+
+  .nav-link {
+    font-size: 11px;
+    color: var(--dim);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover { color: var(--text); }
+
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--dim);
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .theme-toggle:hover {
+    color: var(--text);
+    border-color: var(--dim);
+  }
+
+  /* -- Meta -- */
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+    font-size: 11px;
+    color: var(--dim);
+  }
+
+  .meta-sep { color: var(--border); }
+
+  /* -- Tags -- */
+  .post-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .tag {
+    font-size: 10px;
+    color: var(--dim2);
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  /* -- Headline -- */
+  h1 {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  .lede {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--dim);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  /* -- Body -- */
+  article { padding-bottom: 48px; }
+
+  p {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text);
+    margin-bottom: 22px;
+    line-height: 1.85;
+  }
+
+  /* -- Section headers -- */
+  h2 {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--pink);
+    margin: 52px 0 18px;
+    letter-spacing: 0.02em;
+  }
+
+  /* -- Code blocks -- */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 18px 20px;
+    margin: 20px 0 28px;
+    overflow-x: auto;
+  }
+
+  pre code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    font-weight: 300;
+    color: #ccc;
+    line-height: 1.75;
+  }
+
+  :root.light pre code { color: #333; }
+
+  p code {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--pink);
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .cm { color: #555; }
+
+  /* -- Plain list -- */
+  .plain-list {
+    list-style: none;
+    margin: 0 0 22px 0;
+    padding: 0;
+  }
+
+  .plain-list li {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.85;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .plain-list li::before {
+    content: '\2014';
+    position: absolute;
+    left: 0;
+    color: var(--dim);
+  }
+
+  /* -- Takeaway -- */
+  .takeaway {
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .takeaway-label {
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+  }
+
+  .takeaway-close {
+    font-size: 14px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--pink);
+    margin-top: 28px;
+    line-height: 1.7;
+  }
+
+  /* -- Back link -- */
+  .back-link {
+    display: inline-block;
+    margin-top: 16px;
+    margin-bottom: 48px;
+    font-size: 12px;
+    color: var(--dim);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--pink); }
+
+  /* -- Footer -- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 0 48px;
+    font-size: 11px;
+    color: var(--dim);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+  @media (max-width: 520px) { h1 { font-size: 18px; } }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div class="wrap">
+
+  <nav>
+    <div class="nav-left">
+      <a href="../index.html" class="site-name">vishnu cv</a>
+      <a href="index.html" class="nav-link">/blogs</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">light</button>
+  </nav>
+
+  <article>
+
+    <div class="meta">
+      <span>2026.03.11</span>
+      <span class="meta-sep">/</span>
+      <span>8 min read</span>
+    </div>
+
+    <h1>what i learned today while designing a python cli book manager</h1>
+
+    <p class="lede">a simple project that turned into a system design exercise — and all the small decisions that shape a program before most of the code exists.</p>
+
+    <div class="post-tags">
+      <span class="tag">python</span>
+      <span class="tag">system design</span>
+      <span class="tag">learning log</span>
+    </div>
+
+    <p>today started with something that looked simple on the surface.</p>
+
+    <p>build a CLI book manager in python.</p>
+
+    <ul class="plain-list">
+      <li>add a book</li>
+      <li>list books</li>
+      <li>find by author</li>
+      <li>remove a book</li>
+    </ul>
+
+    <p>the kind of program you could probably make run pretty quickly. but instead of just writing something that works, i tried thinking about it more like a small system design exercise.</p>
+
+    <p>once you start looking at it that way, a lot of small design decisions begin to appear. things that don't look important at first but actually shape the whole program.</p>
+
+    <h2>data structures quietly control everything</h2>
+
+    <p>the first thought most people have when storing multiple items in python is a list.</p>
+
+    <pre><code>books = [
+    {"title": "Clean Code", "isbn": "9780132350884"},
+    {"title": "The Pragmatic Programmer", "isbn": "9780201616224"}
+]</code></pre>
+
+    <p>this works fine if the only thing you want to do is store and display books.</p>
+
+    <p>but the moment you want to find a specific book, problems start showing up. for example, finding a book by ISBN:</p>
+
+    <pre><code>def find_book(isbn):
+    for book in books:
+        if book["isbn"] == isbn:
+            return book</code></pre>
+
+    <p>the program has to check every single entry until it finds the match. this is an O(n) operation. the time grows as the number of books grows.</p>
+
+    <p>a better design is to make ISBN the key of a dictionary instead.</p>
+
+    <pre><code>books = {
+    "9780132350884": {"title": "Clean Code", "author": "Robert C. Martin"},
+    "9780201616224": {"title": "The Pragmatic Programmer", "author": "Andrew Hunt"}
+}</code></pre>
+
+    <p>now finding a book becomes direct:</p>
+
+    <pre><code>book = books["9780132350884"]</code></pre>
+
+    <p>python jumps straight to the value instead of scanning the whole dataset. this changes the lookup from O(n) to O(1). same feature. very different performance.</p>
+
+    <p>and the interesting part is that this decision happens before any real features are written.</p>
+
+    <h2>some searches will always be slower</h2>
+
+    <p>once the dictionary was keyed by ISBN, another question appeared. what about find by author or find by title?</p>
+
+    <p>a dictionary doesn't help much here because those fields are inside the values, not the keys. so the only option is to iterate and filter.</p>
+
+    <pre><code>def find_by_author(author):
+    return [b for b in books.values() if b["author"] == author]</code></pre>
+
+    <p>this is still O(n). initially that might feel inefficient. but context matters.</p>
+
+    <p>a CLI program like this might store a few hundred books at most. scanning a few hundred entries takes almost no time. adding complex indexing structures would only make the program harder to maintain.</p>
+
+    <p>so sometimes the better engineering choice is keeping the design simple instead of optimizing everything.</p>
+
+    <h2>humans are bad identifiers</h2>
+
+    <p>another design decision showed up while thinking about deletion. how should a book be removed?</p>
+
+    <p>the first instinct is usually remove by title, because that's what users remember. but titles are not unique.</p>
+
+    <ul class="plain-list">
+      <li>different books can share the same name</li>
+      <li>new editions exist</li>
+      <li>reprints exist</li>
+    </ul>
+
+    <p>authors are not reliable either. one author can write many books. the only safe identifier here is ISBN.</p>
+
+    <p>this pattern appears everywhere in real systems. what users see is usually a human-friendly label. what systems store internally is a unique identifier. users see names, titles, and emails. systems use UUIDs, primary keys, and IDs.</p>
+
+    <h2>CLI programs still need structure</h2>
+
+    <p>a common pattern in small scripts is something like this:</p>
+
+    <pre><code>while True:
+    if choice == "1":
+        ...</code></pre>
+
+    <p>this works for tiny programs. but as the number of commands grows, the logic quickly becomes difficult to maintain. a cleaner approach is separating responsibilities.</p>
+
+    <pre><code><span class="cm"># CLI layer     &rarr; handles user input
+# service layer &rarr; handles book operations
+# storage layer &rarr; handles persistence</span>
+
+def main():
+    while True:
+        cmd = get_input()
+        router.dispatch(cmd)</code></pre>
+
+    <p>this small structural change makes the program easier to extend later.</p>
+
+    <h2>persistence changes the design</h2>
+
+    <p>initially the books only existed in memory — which means once the program exits, all data disappears.</p>
+
+    <p>for a tool like this, SQLite fits nicely. it runs in a single file and requires almost no setup. but the more interesting decision is how the program interacts with the database.</p>
+
+    <pre><code><span class="cm"># option A: query the database every time</span>
+def find_book(isbn):
+    return db.query("SELECT * FROM books WHERE isbn=?", isbn)
+
+<span class="cm"># option B: load everything once at startup</span>
+def startup():
+    books = db.load_all()
+    return books</code></pre>
+
+    <p>for a small CLI tool, the second approach is usually simpler. the program loads everything at startup, works in memory, and only touches the database when writing changes.</p>
+
+    <p>in this setup: database is the source of truth. memory is the working cache. this pattern appears in many real systems.</p>
+
+    <h2>consistency issues are subtle</h2>
+
+    <p>what happens if memory updates but the database write fails?</p>
+
+    <pre><code><span class="cm"># incorrect order</span>
+books[isbn] = new_book
+db.insert(new_book)   <span class="cm"># if this fails, state is inconsistent</span>
+
+<span class="cm"># correct order</span>
+db.insert(new_book)
+if success:
+    books[isbn] = new_book</code></pre>
+
+    <p>small ordering detail, but it prevents inconsistent state.</p>
+
+    <h2>menus don't scale well</h2>
+
+    <p>the first CLI idea used alphabet menus.</p>
+
+    <pre><code>a) add book
+b) list books
+c) find book</code></pre>
+
+    <p>this works for simple demos, but once commands grow it becomes harder to remember. many professional CLI tools instead use command verbs.</p>
+
+    <pre><code>bookcli add "Clean Code" --author "Robert C. Martin"
+bookcli list
+bookcli find --author "Robert C. Martin"
+bookcli remove 9780132350884</code></pre>
+
+    <p>tools like git, docker, and kubectl follow this pattern because it scales better.</p>
+
+    <div class="takeaway">
+      <div class="takeaway-label">the main takeaway</div>
+
+      <p>none of the individual features in this project are complicated. adding a book is straightforward. listing books is straightforward. searching books is straightforward.</p>
+
+      <p>but the interesting part wasn't writing the code. it was thinking about the questions behind the code:</p>
+
+      <ul class="plain-list">
+        <li>how should the data be structured?</li>
+        <li>what needs to be fast and what can remain simple?</li>
+        <li>what uniquely identifies a record?</li>
+        <li>where should responsibilities live in the program?</li>
+        <li>how should memory and persistence interact safely?</li>
+      </ul>
+
+      <p>these decisions shape the system long before most of the code exists.</p>
+      <p>looking forward to coding the cli</p>
+
+      <p class="takeaway-close">what i learnt today is swe often comes down to designing the structure well before implementing the features.</p>
+    </div>
+
+  </article>
+
+  <a href="index.html" class="back-link">&larr; back to blogs</a>
+
+  <footer>
+    <span>vishnu cv</span>
+    <span>2026</span>
+  </footer>
+
+</div>
+
+<script>
+  // reading progress bar
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const d = document.documentElement;
+    bar.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
+  });
+
+  // theme toggle
+  function toggleTheme() {
+    const root = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    root.classList.toggle('light');
+    btn.textContent = root.classList.contains('light') ? 'dark' : 'light';
+  }
+</script>
+
+</body>
+</html>
