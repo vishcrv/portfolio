@@ -5,29 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>what i learned today while designing a python cli book manager — vishnu cv</title>
 <link rel="icon" type="image/png" href="../../imgs/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --bg: #0a0a0a;
-    --text: #f0f0f0;
+    --text: #ebebeb;
     --pink: #f2c4ce;
-    --dim: #888;
+    --dim: #777;
     --dim2: #555;
-    --border: #1c1c1c;
+    --border: #1e1e1e;
     --code-bg: #111;
     --mono: 'JetBrains Mono', monospace;
-  }
-
-  :root.light {
-    --bg: #fafafa;
-    --text: #111;
-    --pink: #9b4d6a;
-    --dim: #666;
-    --dim2: #999;
-    --border: #e0e0e0;
-    --code-bg: #f0f0f0;
   }
 
   html { scroll-behavior: smooth; }
@@ -37,32 +27,46 @@
     color: var(--text);
     font-family: var(--mono);
     font-size: 14px;
-    line-height: 1.8;
+    line-height: 1.85;
     -webkit-font-smoothing: antialiased;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    transition: background 0.3s, color 0.3s;
   }
 
-  /* -- Reading progress bar -- */
+  /* deep dark blue glow fades in on load */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% -10%, #001533 0%, #000d1f 20%, #00070f 45%, #000408 65%, #000000 100%);
+    z-index: -1;
+    opacity: 0;
+    animation: fadeInBg 2s ease-in-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes fadeInBg {
+    0%   { opacity: 0; }
+    80%  { opacity: 0.95; }
+    100% { opacity: 1; }
+  }
+
+  /* reading progress bar */
   #progress {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 2px;
+    top: 0; left: 0;
+    width: 0%; height: 2px;
     background: var(--pink);
     z-index: 1000;
     transition: width 0.08s linear;
   }
 
-  /* -- Layout -- */
   .wrap {
     max-width: 640px;
     margin: 0 auto;
     padding: 0 24px;
   }
 
-  /* -- Nav -- */
+  /* nav */
   nav {
     padding: 48px 0 40px;
     border-bottom: 1px solid var(--border);
@@ -72,118 +76,78 @@
     justify-content: space-between;
   }
 
-  .nav-left {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
+  .nav-left { display: flex; align-items: center; gap: 24px; }
 
   .site-name {
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--pink);
-    letter-spacing: 0.06em;
-    text-decoration: none;
+    font-size: 12px; font-weight: 400;
+    color: var(--pink); letter-spacing: 0.06em; text-decoration: none;
   }
-
   .site-name:hover { opacity: 0.7; }
 
   .nav-link {
-    font-size: 11px;
-    color: var(--dim);
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    transition: color 0.2s;
+    font-size: 11px; color: var(--dim);
+    text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s;
   }
-
   .nav-link:hover { color: var(--text); }
 
-  .theme-toggle {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    color: var(--dim);
-    font-family: var(--mono);
-    font-size: 10px;
-    padding: 4px 10px;
-    cursor: pointer;
-    letter-spacing: 0.04em;
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .theme-toggle:hover {
-    color: var(--text);
-    border-color: var(--dim);
-  }
-
-  /* -- Meta -- */
+  /* meta */
   .meta {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 12px;
-    font-size: 11px;
-    color: var(--dim);
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 12px; font-size: 11px; color: var(--dim);
   }
-
   .meta-sep { color: var(--border); }
 
-  /* -- Tags -- */
-  .post-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 32px;
-  }
-
+  /* tags */
+  .post-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
   .tag {
-    font-size: 10px;
-    color: var(--dim2);
-    letter-spacing: 0.04em;
-    padding: 3px 8px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
+    font-size: 10px; color: var(--dim2); letter-spacing: 0.04em;
+    padding: 3px 8px; border: 1px solid var(--border); border-radius: 2px;
   }
 
-  /* -- Headline -- */
+  /* headline */
   h1 {
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--text);
-    line-height: 1.35;
-    letter-spacing: -0.01em;
-    margin-bottom: 16px;
+    font-size: 22px; font-weight: 400; color: var(--text);
+    line-height: 1.35; letter-spacing: -0.01em; margin-bottom: 16px;
   }
 
   .lede {
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--dim);
-    line-height: 1.7;
-    margin-bottom: 20px;
+    font-size: 13px; font-weight: 300; color: var(--dim);
+    line-height: 1.7; margin-bottom: 20px;
   }
 
-  /* -- Body -- */
   article { padding-bottom: 48px; }
 
   p {
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--text);
-    margin-bottom: 22px;
-    line-height: 1.85;
+    font-size: 14px; font-weight: 300; color: var(--text);
+    margin-bottom: 22px; line-height: 1.85;
   }
 
-  /* -- Section headers -- */
+  /* section headers — bigger with bar accent */
   h2 {
-    font-size: 13px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 500;
     color: var(--pink);
     margin: 52px 0 18px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
-  /* -- Code blocks -- */
+  h2::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 16px;
+    background: var(--pink);
+    border-radius: 2px;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* code blocks */
+  .pre-wrap { position: relative; }
+
   pre {
     background: var(--code-bg);
     border: 1px solid var(--border);
@@ -194,107 +158,112 @@
   }
 
   pre code {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    font-weight: 300;
-    color: #ccc;
-    line-height: 1.75;
+    font-family: var(--mono); font-size: 12.5px;
+    font-weight: 300; color: #ccc; line-height: 1.75;
   }
-
-  :root.light pre code { color: #333; }
 
   p code {
+    font-family: var(--mono); font-size: 12px; color: var(--pink);
+    background: var(--code-bg); border: 1px solid var(--border);
+    padding: 1px 5px; border-radius: 2px;
+  }
+
+  .cm { color: #4a4a4a; }
+
+  /* copy button */
+  .copy-btn {
+    position: absolute;
+    top: 10px; right: 10px;
     font-family: var(--mono);
-    font-size: 12px;
-    color: var(--pink);
-    background: var(--code-bg);
-    border: 1px solid var(--border);
-    padding: 1px 5px;
+    font-size: 10px;
+    color: var(--dim2);
+    background: transparent;
+    border: 1px solid #2a2a2a;
     border-radius: 2px;
+    padding: 3px 8px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: color 0.15s, border-color 0.15s;
   }
 
-  .cm { color: #555; }
+  .copy-btn:hover { color: var(--text); border-color: #444; }
+  .copy-btn.copied { color: #7effc4; border-color: #7effc4; }
 
-  /* -- Plain list -- */
-  .plain-list {
-    list-style: none;
-    margin: 0 0 22px 0;
-    padding: 0;
-  }
-
+  /* plain list */
+  .plain-list { list-style: none; margin: 0 0 22px 0; padding: 0; }
   .plain-list li {
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--text);
-    line-height: 1.85;
-    padding-left: 16px;
-    position: relative;
+    font-size: 14px; font-weight: 300; color: var(--text);
+    line-height: 1.85; padding-left: 16px; position: relative;
   }
-
   .plain-list li::before {
     content: '\2014';
-    position: absolute;
-    left: 0;
-    color: var(--dim);
+    position: absolute; left: 0; color: var(--dim);
   }
 
-  /* -- Takeaway -- */
+  /* takeaway */
   .takeaway {
-    margin-top: 56px;
-    padding-top: 40px;
+    margin-top: 56px; padding-top: 40px;
     border-top: 1px solid var(--border);
   }
 
   .takeaway-label {
-    font-size: 11px;
-    color: var(--dim);
-    letter-spacing: 0.08em;
-    margin-bottom: 20px;
+    font-size: 11px; color: var(--dim);
+    letter-spacing: 0.08em; margin-bottom: 20px;
   }
 
   .takeaway-close {
-    font-size: 14px;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--pink);
-    margin-top: 28px;
-    line-height: 1.7;
+    font-size: 14px; font-weight: 300;
+    font-style: italic; color: var(--pink);
+    margin-top: 28px; line-height: 1.7;
   }
 
-  /* -- Back link -- */
+  /* back link */
   .back-link {
-    display: inline-block;
-    margin-top: 16px;
-    margin-bottom: 48px;
-    font-size: 12px;
-    color: var(--dim);
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    transition: color 0.2s;
+    display: inline-block; margin-top: 16px; margin-bottom: 48px;
+    font-size: 12px; color: var(--dim); text-decoration: none;
+    letter-spacing: 0.02em; transition: color 0.2s;
   }
-
   .back-link:hover { color: var(--pink); }
 
-  /* -- Footer -- */
+  /* footer */
   footer {
-    border-top: 1px solid var(--border);
-    padding: 28px 0 48px;
-    font-size: 11px;
-    color: var(--dim);
-    display: flex;
-    justify-content: space-between;
+    border-top: 1px solid var(--border); padding: 28px 0 48px;
+    font-size: 11px; color: var(--dim);
+    display: flex; justify-content: space-between;
   }
+
+  /* section nav dots */
+  .progress-tracker {
+    position: fixed;
+    right: 24px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column;
+    gap: 8px; z-index: 100;
+  }
+
+  .pt-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #2a2a2a;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .pt-dot.active { background: var(--pink); transform: scale(1.3); }
+  .pt-dot.done   { background: #444; }
 
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
 
-  @media (max-width: 520px) { h1 { font-size: 18px; } }
+  @media (max-width: 800px) { .progress-tracker { display: none; } }
+  @media (max-width: 520px)  { h1 { font-size: 18px; } }
 </style>
 </head>
 <body>
 
 <div id="progress"></div>
+<nav class="progress-tracker" id="ptNav"></nav>
 
 <div class="wrap">
 
@@ -303,7 +272,6 @@
       <a href="../../" class="site-name">vishnu cv</a>
       <a href="../" class="nav-link">/blogs</a>
     </div>
-    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">light</button>
   </nav>
 
   <article>
@@ -339,49 +307,66 @@
 
     <p>once you start looking at it that way, a lot of small design decisions begin to appear. things that don't look important at first but actually shape the whole program.</p>
 
-    <h2>data structures quietly control everything</h2>
+    <!-- SECTION 1 -->
+    <h2 data-section="data structures">data structures quietly control everything</h2>
 
     <p>the first thought most people have when storing multiple items in python is a list.</p>
 
-    <pre><code>books = [
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code>books = [
     {"title": "Clean Code", "isbn": "9780132350884"},
     {"title": "The Pragmatic Programmer", "isbn": "9780201616224"}
 ]</code></pre>
+    </div>
 
     <p>this works fine if the only thing you want to do is store and display books.</p>
 
     <p>but the moment you want to find a specific book, problems start showing up. for example, finding a book by ISBN:</p>
 
-    <pre><code>def find_book(isbn):
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code>def find_book(isbn):
     for book in books:
         if book["isbn"] == isbn:
             return book</code></pre>
+    </div>
 
     <p>the program has to check every single entry until it finds the match. this is an O(n) operation. the time grows as the number of books grows.</p>
 
     <p>a better design is to make ISBN the key of a dictionary instead.</p>
 
-    <pre><code>books = {
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code>books = {
     "9780132350884": {"title": "Clean Code", "author": "Robert C. Martin"},
     "9780201616224": {"title": "The Pragmatic Programmer", "author": "Andrew Hunt"}
 }</code></pre>
+    </div>
 
     <p>now finding a book becomes direct:</p>
 
-    <pre><code>book = books["9780132350884"]</code></pre>
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code>book = books["9780132350884"]</code></pre>
+    </div>
 
     <p>python jumps straight to the value instead of scanning the whole dataset. this changes the lookup from O(n) to O(1). same feature. very different performance.</p>
 
     <p>and the interesting part is that this decision happens before any real features are written.</p>
 
-    <h2>some searches will always be slower</h2>
+    <!-- SECTION 2 -->
+    <h2 data-section="slow searches">some searches will always be slower</h2>
 
     <p>once the dictionary was keyed by ISBN, another question appeared. what about find by author or find by title?</p>
 
     <p>a dictionary doesn't help much here because those fields are inside the values, not the keys. so the only option is to iterate and filter.</p>
 
-    <pre><code>def find_by_author(author):
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code>def find_by_author(author):
     return [b for b in books.values() if b["author"] == author]</code></pre>
+    </div>
 
     <p>this is still O(n). initially that might feel inefficient. but context matters.</p>
 
@@ -389,7 +374,8 @@
 
     <p>so sometimes the better engineering choice is keeping the design simple instead of optimizing everything.</p>
 
-    <h2>humans are bad identifiers</h2>
+    <!-- SECTION 3 -->
+    <h2 data-section="identifiers">humans are bad identifiers</h2>
 
     <p>another design decision showed up while thinking about deletion. how should a book be removed?</p>
 
@@ -405,34 +391,44 @@
 
     <p>this pattern appears everywhere in real systems. what users see is usually a human-friendly label. what systems store internally is a unique identifier. users see names, titles, and emails. systems use UUIDs, primary keys, and IDs.</p>
 
-    <h2>CLI programs still need structure</h2>
+    <!-- SECTION 4 -->
+    <h2 data-section="structure">CLI programs still need structure</h2>
 
     <p>a common pattern in small scripts is something like this:</p>
 
-    <pre><code>while True:
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code>while True:
     if choice == "1":
         ...</code></pre>
+    </div>
 
     <p>this works for tiny programs. but as the number of commands grows, the logic quickly becomes difficult to maintain. a cleaner approach is separating responsibilities.</p>
 
-    <pre><code><span class="cm"># CLI layer     &rarr; handles user input
-# service layer &rarr; handles book operations
-# storage layer &rarr; handles persistence</span>
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code><span class="cm"># CLI layer     → handles user input
+# service layer → handles book operations
+# storage layer → handles persistence</span>
 
 def main():
     while True:
         cmd = get_input()
         router.dispatch(cmd)</code></pre>
+    </div>
 
     <p>this small structural change makes the program easier to extend later.</p>
 
-    <h2>persistence changes the design</h2>
+    <!-- SECTION 5 -->
+    <h2 data-section="persistence">persistence changes the design</h2>
 
-    <p>initially the books only existed in memory — which means once the program exits, all data disappears.</p>
+    <p>initially the books only existed in memory, which means once the program exits, all data disappears.</p>
 
     <p>for a tool like this, SQLite fits nicely. it runs in a single file and requires almost no setup. but the more interesting decision is how the program interacts with the database.</p>
 
-    <pre><code><span class="cm"># option A: query the database every time</span>
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code><span class="cm"># option A: query the database every time</span>
 def find_book(isbn):
     return db.query("SELECT * FROM books WHERE isbn=?", isbn)
 
@@ -440,16 +436,20 @@ def find_book(isbn):
 def startup():
     books = db.load_all()
     return books</code></pre>
+    </div>
 
     <p>for a small CLI tool, the second approach is usually simpler. the program loads everything at startup, works in memory, and only touches the database when writing changes.</p>
 
     <p>in this setup: database is the source of truth. memory is the working cache. this pattern appears in many real systems.</p>
 
-    <h2>consistency issues are subtle</h2>
+    <!-- SECTION 6 -->
+    <h2 data-section="consistency">consistency issues are subtle</h2>
 
     <p>what happens if memory updates but the database write fails?</p>
 
-    <pre><code><span class="cm"># incorrect order</span>
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code><span class="cm"># incorrect order</span>
 books[isbn] = new_book
 db.insert(new_book)   <span class="cm"># if this fails, state is inconsistent</span>
 
@@ -457,23 +457,31 @@ db.insert(new_book)   <span class="cm"># if this fails, state is inconsistent</s
 db.insert(new_book)
 if success:
     books[isbn] = new_book</code></pre>
+    </div>
 
     <p>small ordering detail, but it prevents inconsistent state.</p>
 
-    <h2>menus don't scale well</h2>
+    <!-- SECTION 7 -->
+    <h2 data-section="menus">menus don't scale well</h2>
 
     <p>the first CLI idea used alphabet menus.</p>
 
-    <pre><code>a) add book
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code>a) add book
 b) list books
 c) find book</code></pre>
+    </div>
 
     <p>this works for simple demos, but once commands grow it becomes harder to remember. many professional CLI tools instead use command verbs.</p>
 
-    <pre><code>bookcli add "Clean Code" --author "Robert C. Martin"
+    <div class="pre-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+<pre><code>bookcli add "Clean Code" --author "Robert C. Martin"
 bookcli list
 bookcli find --author "Robert C. Martin"
 bookcli remove 9780132350884</code></pre>
+    </div>
 
     <p>tools like git, docker, and kubectl follow this pattern because it scales better.</p>
 
@@ -493,7 +501,7 @@ bookcli remove 9780132350884</code></pre>
       </ul>
 
       <p>these decisions shape the system long before most of the code exists.</p>
-      <p>looking forward to coding the cli</p>
+      <p>looking forward to coding the cli.</p>
 
       <p class="takeaway-close">what i learnt today is swe often comes down to designing the structure well before implementing the features.</p>
     </div>
@@ -517,13 +525,48 @@ bookcli remove 9780132350884</code></pre>
     bar.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
   });
 
-  // theme toggle
-  function toggleTheme() {
-    const root = document.documentElement;
-    const btn = document.getElementById('themeBtn');
-    root.classList.toggle('light');
-    btn.textContent = root.classList.contains('light') ? 'dark' : 'light';
+  // copy button
+  function copyCode(btn) {
+    const code = btn.closest('.pre-wrap').querySelector('code');
+    const text = code.innerText || code.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
+    });
   }
+
+  // section nav dots
+  const sections = document.querySelectorAll('h2[data-section]');
+  const nav = document.getElementById('ptNav');
+
+  sections.forEach(sec => {
+    const dot = document.createElement('div');
+    dot.className = 'pt-dot';
+    dot.title = sec.dataset.section;
+    dot.addEventListener('click', () => {
+      const top = sec.getBoundingClientRect().top + window.scrollY - 48;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+    nav.appendChild(dot);
+  });
+
+  const dots = nav.querySelectorAll('.pt-dot');
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const i = [...sections].indexOf(entry.target);
+      if (i === -1) return;
+      if (entry.isIntersecting) {
+        dots.forEach((d, di) => {
+          d.classList.toggle('active', di === i);
+          d.classList.toggle('done', di < i);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(sec => obs.observe(sec));
 </script>
 
 </body>

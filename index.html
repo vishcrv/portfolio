@@ -1,175 +1,891 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
-    <link rel="icon" type="image/png" href="imgs/favicon.png">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vishnu cv</title>
+<link rel="icon" type="image/png" href="imgs/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <header>
-        <div class="top-section">
-            <div class="linkheader">
-                <a href="https://github.com/vishcrv" aria-label="GitHub Profile">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon">
-                        <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"></path>
-                    </svg>
-                </a>
-                <a href="https://www.linkedin.com/in/vishnu-c-v-1a85b7293/" aria-label="LinkedIn Profile">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon">
-                        <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
-                    </svg>
-                </a>
-            </div>
-            <div class="profile-info">
-                <h1 class="name">Vishnu CV</h1>
-                <p class="designation">aspiring swe, undergraduate at <br>vit chennai</p>
-            </div>
+
+<div id="progress"></div>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="top-section">
+      <div class="linkheader">
+        <a href="https://github.com/vishcrv" aria-label="GitHub Profile">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon">
+            <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"></path>
+          </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/vishnu-c-v-1a85b7293/" aria-label="LinkedIn Profile">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon">
+            <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+          </svg>
+        </a>
+      </div>
+      <div class="profile-info">
+        <h1 class="name">Vishnu CV</h1>
+        <p class="designation">aspiring swe, undergraduate at vit chennai</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <div class="skill-card">
+    <p class="skill">
+      skilled in
+      <a href="https://www.python.org/doc/" target="_blank"><b>python</b></a>
+      gotta learn
+      <a href="https://www.typescriptlang.org/docs/" target="_blank"><b>typescript</b></a>,
+      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"><b>javascript</b></a> —
+      building with
+      <a href="https://nodejs.org/en/docs" target="_blank"><b>node.js</b></a>, and shipping with
+      <a href="https://nextjs.org/docs" target="_blank"><b>next.js</b></a>,
+      <a href="https://expressjs.com/" target="_blank"><b>express</b></a>,
+      <a href="https://fastapi.tiangolo.com/" target="_blank"><b>fastapi</b></a>
+
+      <br><br>
+
+      currently deep diving into backend architecture and walking through the
+      <a href="https://www.ibm.com/topics/machine-learning" target="_blank"><b>ml</b></a> &amp;
+      <a href="https://www.deeplearning.ai/" target="_blank"><b>dl</b></a> pipeline to understand ai end to end.
+    </p>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="grid">
+
+    <div class="projects">
+      <div class="section-title">projects</div>
+
+      <!-- Agentic RAG -->
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">agentic rag — intelligent doc & web automation</span>
+          <a href="https://github.com/vishcrv" class="project-link" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
         </div>
-    </header>
-
-    <main>
-        <div class="skill-card">
-            <p class="skill">
-                skilled in  
-                <a href="https://www.python.org/doc/" target="_blank"><b>python</b></a>
-                gotta learn
-                <a href="https://www.typescriptlang.org/docs/" target="_blank"><b>typescript</b></a>, 
-                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"><b>javascript</b></a> — 
-                building with 
-                <a href="https://nodejs.org/en/docs" target="_blank"><b>node.js</b></a>, and shipping with 
-                <a href="https://nextjs.org/docs" target="_blank"><b>next.js</b></a>, 
-                <a href="https://expressjs.com/" target="_blank"><b>express</b></a>, 
-                <a href="https://fastapi.tiangolo.com/" target="_blank"><b>fastapi</b></a>
-                
-                <br><br>
-                <br><br>
-                <br><br>
-                <br><br>
-                <br><br>
-
-                currently deep diving into backend architecture and walking through the 
-                <a href="https://www.ibm.com/topics/machine-learning" target="_blank"><b>ml</a> &
-                <a href="https://www.deeplearning.ai/" target="_blank"><b>dl</b></a> pipeline to understand ai end to end.
-            </p>
+        <ul class="project-bullets">
+          <li>hybrid AI system with LLM orchestration, routing between static doc analysis and dynamic web automation via rule-based + LLM decision logic.</li>
+          <li>multi-modal doc processor — PDFs, DOCX, PPTX, EML with OCR · 95%+ task accuracy.</li>
+          <li>semantic caching reduced query response time by 80% while maintaining vector search precision.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">LangChain</span>
+          <span class="tag">Qdrant</span>
+          <span class="tag">Playwright</span>
+          <span class="tag">SentenceTransformers</span>
+          <span class="tag">Pytesseract</span>
         </div>
+      </div>
 
-        <div class="container">
-            <div class="section">
-                <div class="section-title">projects</div>
-                
-                <!-- iris -->
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3 class="project-header">iris </h3>
-                        <a href="https://github.com/vishcrv/iris" class="project-link" aria-label="GitHub Repo" target="_blank">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="project-icon">
-                                <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- <p class="project-creator">creator 2025</p> -->
-                    
-                    <div class="project-achievements">
-                        <ul>
-                            <li>built an AI meeting summarizer using whisper and locally hosted LLaMA 3.2 via Ollama.</li>
-                            <li>designed modular API routes (<code>/transcribe</code>, <code>/analyze</code>).</li>
-                            <li>used IndexedDB for local storage of transcripts and summaries.</li>
-                            <li>created the frontend with shadcn/ui and animated transitions via framer motion.</li>
-                        </ul>
-                    </div>
-                    <div class="project-technologies">
-                        <span class="tech-tag">Next.js</span>
-                        <span class="tech-tag">Whisper API</span>
-                        <span class="tech-tag">LLaMA 3.2</span>
-                        <span class="tech-tag">Tailwind CSS</span>
-                        <span class="tech-tag">IndexedDB</span>
-                    </div>
-                </div>
-
-                <!-- router -->
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3 class="project-header">router – llm prompt router</h3>
-                        <a href="https://github.com/vishcrv/router" class="project-link" aria-label="GitHub Repo" target="_blank">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="project-icon">
-                                <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- <p class="project-creator">creator (2025)</p> -->
-                    
-                    <div class="project-achievements">
-                        <ul>
-                            <li>developed a system that routes prompts to the best LLM using a rule-based scoring algorithm.</li>
-                            <li>implemented endpoints for routing, batch queries, and model comparison..</li>
-                            <li>used httpx.AsyncClient for concurrent API calls.</li>
-                            <li>REST client testing, and robust error handling for production-readiness.</li>
-                        </ul>
-                    </div>
-                    <div class="project-technologies">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">FastAPI</span>
-                        <span class="tech-tag">OpenRouter API</span>
-                        <span class="tech-tag">AsyncIO</span>
-                        <span class="tech-tag">httpx</span>
-                        <span class="tech-tag">dotenv</span>
-                    </div>
-                </div>
-
-                <!-- jwt based auth app -->
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3 class="project-header">jwt based auth app</h3>
-                        <a href="https://github.com/vishcrv/backend" class="project-link" aria-label="GitHub Repo" target="_blank">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="project-icon">
-                                <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- <p class="project-creator">creator (2025)</p> -->
-                    <!-- <p class="project-description">
-                        Node.js, Express.js, SQLite, JWT, bcrypt
-                    </p> -->
-                    <div class="project-achievements">
-                        <ul>
-                            <li>made a RESTful backend with JWT-based user auth and secured password storage using bcrypt.</li>
-                            <li>built protected CRUD APIs for todo management, scoped by user via middleware authentication.</li>
-                            <li>structured SQLite schema with relational integrity between users and their todos.</li>                        </ul>
-                    </div>
-                    <div class="project-technologies">
-                        <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">Express.js</span>
-                        <span class="tech-tag">SQLite</span>
-                        <span class="tech-tag">JWT</span>
-                        <span class="tech-tag">bcrypt</span>
-                        <span class="tech-tag">JavaScript</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="sidebar">
-                <div class="links">
-                    <div class="section-title">links</div>
-                    <a href="blogs/" class="item">blogs</a>
-                    <a href="mailto:vishnuvenkatcrv@gmail.com" class="item">gmail</a>
-                    <a href="https://x.com/canisbluffy" class="item">twitter</a>
-                    <a href="https://www.instagram.com/vishhhhnnu/" class="item">instagram</a>
-                </div>
-            </div>
+      <!-- Dynamic LLM Router -->
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">dynamic llm router</span>
+          <a href="https://github.com/vishcrv/router" class="project-link" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
         </div>
-    </main>
+        <ul class="project-bullets">
+          <li>fine-tuned DistilBERT on 9,500+ labeled prompts · 93% classification accuracy across 5 LLM models.</li>
+          <li>async FastAPI backend processing real-time requests with sub-100ms latency for model selection.</li>
+          <li>scalable routing engine dynamically selecting optimal LLM based on prompt classification.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">DistilBERT</span>
+          <span class="tag">HuggingFace</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">OpenRouter API</span>
+        </div>
+      </div>
+
+      <!-- Iris -->
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">iris — ai meeting summarizer</span>
+          <a href="https://github.com/vishcrv/iris" class="project-link" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+        <ul class="project-bullets">
+          <li>2-stage AI pipeline — Whisper for transcription + LLaMA 3.2 for intelligent summarization.</li>
+          <li>modular API architecture with offline-first functionality via client-side IndexedDB persistence.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">Whisper API</span>
+          <span class="tag">LLaMA 3.2</span>
+          <span class="tag">Tailwind</span>
+          <span class="tag">IndexedDB</span>
+        </div>
+      </div>
+
+      <!-- JWT Auth -->
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">secure jwt-auth todo app</span>
+          <a href="https://github.com/vishcrv/backend" class="project-link" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+        <ul class="project-bullets">
+          <li>JWT refresh tokens + bcrypt password hashing · role-based authorization + input validation.</li>
+          <li>SQLite schema with relational integrity · database transactions to enforce data integrity.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express.js</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">JWT</span>
+          <span class="tag">bcrypt</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-block">
+        <div class="section-title">links</div>
+        <a href="blogs/">blogs</a>
+        <a href="/cdn-cgi/l/email-protection#295f405a41475c5f4c4742485d4a5b5f694e44484045074a4644">gmail</a>
+        <a href="https://x.com/canisbluffy" target="_blank">twitter</a>
+        <a href="https://www.instagram.com/vishhhhnnu/" target="_blank">instagram</a>
+      </div>
+
+      <div class="sidebar-block">
+        <div class="section-title">sections</div>
+        <a href="#experience" onclick="smoothTo('experience',event)">experience</a>
+        <a href="#achievements" onclick="smoothTo('achievements',event)">achievements</a>
+        <a href="#terminal" onclick="smoothTo('terminal',event)">terminal</a>
+        <a href="https://drive.google.com/file/d/1N0mjZJMW4lXlvMBMkTxE2pG_mkJHOf4O/view?usp=drive_link" target="_blank">resume ↗</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section class="achievements-section" id="experience">
+    <div class="section-title">experience</div>
+    <div class="achievement-item">
+      <span><strong>Full Stack Developer Intern — Daira EdTech</strong> <span class="ach-date">Jul – Sep 2025</span><br>engineered 8+ REST endpoints · architected full-stack features using React + FastAPI for the UPSC Yantra platform · improved data retrieval efficiency and reduced API response overhead.</span>
+    </div>
+    <div class="achievement-item">
+      <span><strong>Head of Creatives — Fraternity of Young Innovators</strong> <span class="ach-date">Mar 2025 – present</span><br>led creative team of 10 across photography and video production · produced 50+ reels reaching 1M+ views · grew avg views per post 233% (6K → 20K).</span>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section class="achievements-section" id="achievements">
+    <div class="section-title">achievements</div>
+    <div class="achievement-item">
+      <span><strong>HackRx 6.0 (Bajaj Finserv)</strong> — Grand Finalist · ranked top 1 in phase 1 among 30,000+ nationwide registrations.</span>
+    </div>
+    <div class="achievement-item">
+      <span><strong>Covasant AI Hackathon 2025</strong> — Runner-up among 200+ teams with an intelligent LLM routing solution · awarded ₹20,000.</span>
+    </div>
+  </section>
+
+  <!-- TERMINAL -->
+  <div class="vterm-wrap" id="terminal">
+    <div class="vterm-label">// terminal</div>
+    <div class="vterm-window" id="vtermWindow">
+      <div class="vterm-bar">
+        <span class="vt-dot red"></span>
+        <span class="vt-dot yel"></span>
+        <span class="vt-dot grn"></span>
+        <span class="vterm-title">vishnu@portfolio&nbsp;<span class="vt-cwd" id="vtermCwd">~</span></span>
+      </div>
+      <div class="vterm-body" id="vtermBody">
+        <div id="vtermOutput"></div>
+        <div class="vt-input-row">
+          <span class="vt-prompt-live" id="vtermPromptLive">vishnu@portfolio:~$&nbsp;</span>
+          <input class="vt-input" id="vtermInput" type="text"
+            autocomplete="off" autocorrect="off" autocapitalize="off"
+            spellcheck="false" aria-label="terminal input" />
+        </div>
+        <div class="vt-hint" id="vtermHint">
+          type <b>help</b> to see available commands &nbsp;·&nbsp;
+          <b>Tab</b> autocomplete &nbsp;·&nbsp; <b>↑↓</b> history
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>"they hate us cause they ain't us!"</p>
+    <p>2026</p>
+  </footer>
+
+</div>
+
+<!-- progress bar script -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function smoothTo(id, e) {
+  if (e) e.preventDefault();
+  const el = document.getElementById(id);
+  if (!el) return;
+  const top = el.getBoundingClientRect().top + window.scrollY - 48;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
+const bar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  bar.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
+});
+</script>
+
+<!-- TERMINAL SCRIPT -->
+<script>
+(function () {
+  'use strict';
+
+  const $out    = document.getElementById('vtermOutput');
+  const $input  = document.getElementById('vtermInput');
+  const $body   = document.getElementById('vtermBody');
+  const $hint   = document.getElementById('vtermHint');
+  const $cwd    = document.getElementById('vtermCwd');
+  const $prompt = document.getElementById('vtermPromptLive');
+
+  let cwd        = '~';
+  let cmdHistory = [];
+  let histIdx    = -1;
+  const SESSION  = Date.now();
+
+  const FS_SIZES = {
+    'projects/':                 '',
+    'about.txt':                 '1.8kb',
+    'skills.txt':                '2.4kb',
+    'contact.txt':               '0.9kb',
+    'resume.pdf':                '87kb',
+    'iris.txt':                  '3.1kb',
+    'router.txt':                '2.7kb',
+    'rag.txt':                   '3.4kb',
+    'auth.txt':                  '2.2kb',
+    '2026-03-11-python-cli.txt': '14.2kb',
+    '2026-03-20-git.txt':        '11.6kb',
+  };
+
+  const FS = {
+    '~':        ['projects/', 'about.txt', 'skills.txt', 'contact.txt', 'resume.pdf'],
+    'projects': ['rag.txt', 'router.txt', 'iris.txt', 'auth.txt'],
+  };
+
+  const FILES = {
+    'about.txt': [
+      { t:'bright', v:'vishnu cv' },
+      { t:'',       v:'cs student & backend developer  ·  vit chennai' },
+      { t:'',       v:'b.tech cs (ai & robotics)  ·  3rd year  ·  gpa: 8.55' },
+      { t:'spacer' },
+      { t:'dim',    v:'building stuff to understand it.' },
+      { t:'dim',    v:'currently going deep into backend arch + llm orchestration.' },
+    ],
+    'skills.txt': [
+      { t:'pink', v:'languages' },
+      { t:'',     v:'  python  ·  typescript  ·  javascript  ·  c  ·  java' },
+      { t:'spacer' },
+      { t:'pink', v:'ai & llm' },
+      { t:'',     v:'  openai apis  ·  langchain  ·  huggingface  ·  ollama' },
+      { t:'',     v:'  sentencetransformers  ·  qdrant  ·  llm orchestration' },
+      { t:'spacer' },
+      { t:'pink', v:'backend' },
+      { t:'',     v:'  fastapi  ·  express.js  ·  node.js  ·  restful apis  ·  jwt' },
+      { t:'spacer' },
+      { t:'pink', v:'frontend' },
+      { t:'',     v:'  react  ·  next.js  ·  tailwind css  ·  shadcn/ui  ·  framer motion' },
+      { t:'spacer' },
+      { t:'pink', v:'databases' },
+      { t:'',     v:'  postgresql  ·  mysql  ·  qdrant  ·  mongodb  ·  sqlite  ·  indexeddb' },
+      { t:'spacer' },
+      { t:'pink', v:'devops & tools' },
+      { t:'',     v:'  git  ·  docker  ·  playwright  ·  pytesseract  ·  beautifulsoup' },
+    ],
+    'rag.txt': [
+      { t:'bright', v:'agentic rag — intelligent doc & web automation' },
+      { t:'spacer' },
+      { t:'',       v:'hybrid AI system with LLM orchestration' },
+      { t:'',       v:'routing: static doc analysis ↔ dynamic web automation' },
+      { t:'',       v:'multi-modal: PDFs, DOCX, PPTX, EML + OCR  ·  95%+ accuracy' },
+      { t:'',       v:'semantic caching → 80% reduction in query response time' },
+      { t:'spacer' },
+      { t:'link',   v:'→  github.com/vishcrv', href:'https://github.com/vishcrv' },
+    ],
+    'router.txt': [
+      { t:'bright', v:'dynamic llm router' },
+      { t:'spacer' },
+      { t:'',       v:'fine-tuned DistilBERT on 9,500+ labeled prompts' },
+      { t:'',       v:'93% classification accuracy across 5 LLM models' },
+      { t:'',       v:'sub-100ms latency for model selection (async FastAPI)' },
+      { t:'spacer' },
+      { t:'link',   v:'→  github.com/vishcrv/router', href:'https://github.com/vishcrv/router' },
+    ],
+    'iris.txt': [
+      { t:'bright', v:'iris — ai meeting summarizer' },
+      { t:'spacer' },
+      { t:'',       v:'whisper (transcription) + LLaMA 3.2 (summarization)' },
+      { t:'',       v:'offline-first via client-side IndexedDB persistence' },
+      { t:'',       v:'modular API: /transcribe  ·  /analyze' },
+      { t:'spacer' },
+      { t:'link',   v:'→  github.com/vishcrv/iris', href:'https://github.com/vishcrv/iris' },
+    ],
+    'auth.txt': [
+      { t:'bright', v:'secure jwt-auth todo app' },
+      { t:'spacer' },
+      { t:'',       v:'JWT refresh tokens + bcrypt · role-based authorization' },
+      { t:'',       v:'SQLite with relational integrity · input validation' },
+      { t:'spacer' },
+      { t:'link',   v:'→  github.com/vishcrv/backend', href:'https://github.com/vishcrv/backend' },
+    ],
+  };
+
+  const STEP = 35;
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function scroll() {
+    requestAnimationFrame(() => { $body.scrollTop = $body.scrollHeight; });
+  }
+
+  function println(text, cls, delay) {
+    delay = delay || 0; cls = cls || '';
+    setTimeout(function () {
+      if (cls === 'spacer') {
+        const sp = document.createElement('div');
+        sp.className = 'vt-out spacer';
+        $out.appendChild(sp);
+      } else {
+        const el = document.createElement('span');
+        el.className = 'vt-out' + (cls ? ' ' + cls : '');
+        el.textContent = text;
+        $out.appendChild(el);
+      }
+      scroll();
+    }, delay);
+  }
+
+  function printHTML(html, cls, delay) {
+    delay = delay || 0; cls = cls || '';
+    setTimeout(function () {
+      const el = document.createElement('span');
+      el.className = 'vt-out' + (cls ? ' ' + cls : '');
+      el.innerHTML = html;
+      $out.appendChild(el);
+      scroll();
+    }, delay);
+  }
+
+  function printLink(label, href, delay) {
+    printHTML(
+      '  <a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(label) + '</a>',
+      '', delay
+    );
+  }
+
+  function printSection(label, delay) {
+    delay = delay || 0;
+    setTimeout(function () {
+      const el = document.createElement('span');
+      el.className = 'vt-section-head';
+      el.textContent = label;
+      $out.appendChild(el);
+      scroll();
+    }, delay);
+  }
+
+  function printLines(lines, start) {
+    start = start || 0;
+    lines.forEach(function (l, i) {
+      const d = start + i * STEP;
+      if      (l.t === 'spacer') println('', 'spacer', d);
+      else if (l.t === 'bright') println(l.v, 'bright', d);
+      else if (l.t === 'pink')   println(l.v, 'pink',   d);
+      else if (l.t === 'grn')    println(l.v, 'grn',    d);
+      else if (l.t === 'dim')    println(l.v, 'dim',    d);
+      else if (l.t === 'link')   printLink(l.v, l.href,  d);
+      else                       println(l.v, '',       d);
+    });
+    return start + lines.length * STEP;
+  }
+
+  function printContact() {
+    const items = [
+      { t:'spacer' },
+      { t:'pink',  v:'email' },
+      { t:'link',  v:'vishnuvenkatcrv@gmail.com', href:'mailto:vishnuvenkatcrv@gmail.com' },
+      { t:'spacer' },
+      { t:'pink',  v:'socials' },
+      { t:'link',  v:'github   →  github.com/vishcrv',                     href:'https://github.com/vishcrv' },
+      { t:'link',  v:'linkedin →  linkedin.com/in/vishnu-c-v-1a85b7293',   href:'https://linkedin.com/in/vishnu-c-v-1a85b7293' },
+      { t:'link',  v:'twitter  →  x.com/canisbluffy',                      href:'https://x.com/canisbluffy' },
+      { t:'link',  v:'insta    →  instagram.com/vishhhhnnu',                href:'https://instagram.com/vishhhhnnu' },
+      { t:'spacer' },
+    ];
+    items.forEach(function (l, i) {
+      const d = i * STEP;
+      if      (l.t === 'spacer') println('', 'spacer', d);
+      else if (l.t === 'pink')   println(l.v, 'pink', d);
+      else if (l.t === 'link')   printLink(l.v, l.href, d);
+    });
+  }
+
+  function printEcho(cmd) {
+    const row = document.createElement('div');
+    row.className = 'vt-cmd-echo-row';
+    const p = document.createElement('span');
+    p.className = 'vt-prompt-echo';
+    p.textContent = 'vishnu@portfolio:' + cwd + '$ ';
+    const c = document.createElement('span');
+    c.className = 'vt-cmd-text';
+    c.textContent = cmd;
+    row.appendChild(p); row.appendChild(c);
+    $out.appendChild(row);
+  }
+
+  function updateCwd() {
+    $cwd.textContent = cwd;
+    $prompt.textContent = 'vishnu@portfolio:' + cwd + '$ ';
+  }
+
+  // BOOT
+  (function boot() {
+    const art = [
+      "  ██╗    ██╗██╗███████╗██╗  ██╗███╗   ██╗ ██████╗ ",
+      "  ██║    ██║██║██╔════╝██║  ██║████╗  ██║██╔═══██╗",
+      "  ██║ █╗ ██║██║███████╗███████║██╔██╗ ██║██║   ██║",
+      "  ██║███╗██║██║╚════██║██╔══██║██║╚██╗██║██║   ██║",
+      "  ╚███╔███╔╝██║███████║██║  ██║██║ ╚████║╚██████╔╝",
+      "   ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝",
+    ];
+    art.forEach(function(line, i) {
+      setTimeout(function() {
+        const el = document.createElement('span');
+        el.className = 'vt-out';
+        el.style.color = '#b85c6e';
+        el.textContent = line;
+        $out.appendChild(el);
+        scroll();
+      }, i * 55);
+    });
+    const t = art.length * 55;
+    println('', 'spacer', t + 20);
+    println('  booted.', 'bright', t + 55);
+    println('', 'spacer', t + 85);
+  })();
+
+  // IDLE
+  const IDLE_THOUGHTS = [
+    'still there?',
+    "you've been staring at me for a while.",
+    'try typing  whoami',
+    'the cursor blinks either way.',
+    'are you debugging or just thinking?',
+    'type  bcs  when you need motivation.',
+    "it's fine. i'll wait.",
+  ];
+  let idleTimer = null;
+  let idleActive = false;
+
+  function resetIdle() {
+    clearTimeout(idleTimer);
+    if (idleActive) { $input.classList.remove('vt-idle'); idleActive = false; }
+    idleTimer = setTimeout(function () {
+      idleActive = true;
+      $input.classList.add('vt-idle');
+      const t = IDLE_THOUGHTS[Math.floor(Math.random() * IDLE_THOUGHTS.length)];
+      println('  ' + t, 'ghost');
+      scroll();
+    }, 45000);
+  }
+  resetIdle();
+
+  // COMMANDS
+  const CMDS = {
+
+    help: function () {
+      const groups = [
+        { label: 'info', cmds: [
+          ['whoami',   'who is this guy'],
+          ['neofetch', 'system info'],
+          ['skills',   'full tech stack'],
+          ['projects', 'all projects'],
+          ['github',   'open github profile'],
+          ['resume',   'view resume  →  opens pdf'],
+        ]},
+        { label: 'files', cmds: [
+          ['ls',         'list directory'],
+          ['cd <dir>',   'change directory'],
+          ['cat <file>', 'read a file'],
+          ['pwd',        'print working directory'],
+        ]},
+        { label: 'system', cmds: [
+          ['date',    'current date & time'],
+          ['uptime',  'session uptime'],
+          ['history', 'command history'],
+          ['banner',  'show banner again'],
+          ['clear',   'clear terminal'],
+        ]},
+        { label: 'fun', cmds: [
+          ['bcs',    'walk away, howard.'],
+          ['matrix', '...you know'],
+          ['guess',  'guess the number  (1–100)'],
+        ]},
+      ];
+
+      let delay = 0;
+      println('', 'spacer', delay); delay += 25;
+      groups.forEach(function (g) {
+        printSection('  ' + g.label, delay); delay += 28;
+        g.cmds.forEach(function (row) {
+          println('    ' + row[0].padEnd(20) + row[1], 'dim', delay);
+          delay += 20;
+        });
+        println('', 'spacer', delay); delay += 20;
+      });
+    },
+
+    whoami: function () {
+      printLines([
+        { t:'spacer' },
+        { t:'bright', v:'  vishnu cv' },
+        { t:'',       v:'  cs student & backend developer' },
+        { t:'',       v:'  vit chennai  ·  india  ·  gpa: 8.55' },
+        { t:'spacer' },
+        { t:'',       v:'  building  →  backend systems, LLM tooling, agentic AI' },
+        { t:'',       v:'  learning  →  ml/dl pipeline, system design, llm orchestration' },
+        { t:'dim',    v:'  goal      →  understand things end to end before using them' },
+        { t:'spacer' },
+        { t:'pink',   v:'  hackrx 6.0 grand finalist  ·  covasant ai runner-up (₹20k)' },
+        { t:'spacer' },
+      ]);
+    },
+
+    neofetch: function () {
+      printLines([
+        { t:'spacer' },
+        { t:'pink', v:'  ██████╗    vishnu@portfolio' },
+        { t:'pink', v:'  ██╔══██╗   ──────────────────────────────' },
+        { t:'pink', v:'  ██████╔╝   OS: arch btw (jk, ubuntu)' },
+        { t:'pink', v:'  ██╔══██╗   host: vit chennai' },
+        { t:'pink', v:'  ██║  ██║   shell: zsh + oh-my-zsh' },
+        { t:'pink', v:'  ╚═╝  ╚═╝   editor: nvim (reformed vscode user)' },
+        { t:'spacer' },
+        { t:'dim',  v:'  uptime: 20 yrs' },
+        { t:'',     v:'  packages: python, fastapi, next, node, langchain, qdrant, hope' },
+        { t:'',     v:'  memory: 4GB of stack overflow answers' },
+        { t:'',     v:'  status: learning things the hard way' },
+        { t:'spacer' },
+      ]);
+    },
+
+    skills:   function () { CMDS.cat(['skills.txt']); },
+
+    projects: function () {
+      const rows = [
+        { name:'agentic-rag',   desc:'intelligent doc & web automation  ·  langchain + qdrant' },
+        { name:'llm-router',    desc:'dynamic LLM router  ·  distilbert + fastapi' },
+        { name:'iris',          desc:'AI meeting summarizer  ·  whisper + LLaMA 3.2' },
+        { name:'jwt-auth-app',  desc:'RESTful auth backend  ·  node + sqlite + JWT' },
+      ];
+      println('', 'spacer');
+      rows.forEach(function (r, i) {
+        printHTML(
+          '  <span style="color:var(--vt-purple)">' + esc(r.name).padEnd(18) + '</span>'
+          + '<span style="color:var(--vt-dim)">' + esc(r.desc) + '</span>',
+          '', i * 45
+        );
+      });
+      const d = rows.length * 45 + 30;
+      println('', 'spacer', d);
+      println('  cd projects/  →  ls  →  cat <file>.txt', 'dim', d + 10);
+      println('', 'spacer', d + 40);
+    },
+
+    github: function () {
+      println('  opening github.com/vishcrv ...', 'dim');
+      setTimeout(() => window.open('https://github.com/vishcrv', '_blank'), 400);
+    },
+
+    resume: function () {
+      const PDF_URL = 'https://drive.google.com/file/d/1N0mjZJMW4lXlvMBMkTxE2pG_mkJHOf4O/view?usp=drive_link';
+
+      printLines([
+        { t:'spacer' },
+        { t:'bright', v:'  vishnu cv  ·  resume' },
+        { t:'spacer' },
+        { t:'pink',   v:'  education' },
+        { t:'',       v:'    B.Tech CS (AI & Robotics)  ·  VIT Chennai  ·  GPA: 8.55' },
+        { t:'spacer' },
+        { t:'pink',   v:'  experience' },
+        { t:'',       v:'    full stack dev intern  ·  daira edtech  (jul–sep 2025)' },
+        { t:'',       v:'    head of creatives  ·  fraternity of young innovators' },
+        { t:'spacer' },
+        { t:'pink',   v:'  achievements' },
+        { t:'',       v:'    hackrx 6.0  —  grand finalist  ·  top 1 / 30,000+' },
+        { t:'',       v:'    covasant ai 2025  —  runner-up  ·  ₹20,000' },
+        { t:'spacer' },
+        { t:'pink',   v:'  stack' },
+        { t:'',       v:'    python · typescript · fastapi · next.js · langchain · qdrant' },
+        { t:'spacer' },
+        { t:'dim',    v:'  opening pdf...' },
+        { t:'spacer' },
+      ]);
+      setTimeout(function () { window.open(PDF_URL, '_blank'); }, 1800);
+    },
+
+    pwd: function () { println('/home/' + cwd); },
+
+    ls: function (args) {
+      const dir   = (args && args[0]) ? args[0] : cwd;
+      const clean = dir === '~' ? '~' : dir.replace('/', '');
+      const list  = FS[clean];
+      if (!list) { println('ls: cannot access \'' + dir + '\': no such directory', 'err'); return; }
+      println('', 'spacer');
+      list.forEach(function (e, i) {
+        const isDir = e.endsWith('/');
+        const size  = FS_SIZES[e] ? FS_SIZES[e] : '';
+        printHTML(
+          '<span style="color:' + (isDir ? 'var(--vt-purple)' : 'var(--vt-text)') + '">'
+          + esc('  ' + e).padEnd(36) + '</span>'
+          + '<span style="color:var(--vt-dim)">' + esc(size) + '</span>',
+          '', i * 28
+        );
+      });
+      println('', 'spacer', list.length * 28 + 28);
+    },
+
+    cd: function (args) {
+      if (!args || !args[0] || args[0] === '~') { cwd = '~'; updateCwd(); return; }
+      const target = args[0].replace('/', '');
+      if (args[0] === '..')    { cwd = '~'; updateCwd(); }
+      else if (FS[target])     { cwd = target; updateCwd(); }
+      else println('cd: no such directory: ' + args[0], 'err');
+    },
+
+    cat: function (args) {
+      if (!args || !args[0]) { println('cat: missing filename', 'err'); return; }
+      const file = args[0];
+      // only allow files that exist in the current directory
+      const allowed = FS[cwd] || [];
+      if (!allowed.includes(file)) {
+        println('cat: ' + file + ': no such file in current directory', 'err');
+        return;
+      }
+      if (file === 'contact.txt') { printContact(); return; }
+      if (file === 'resume.pdf')  { CMDS.resume(); return; }
+      const data = FILES[file];
+      if (!data) { println('cat: ' + file + ': no such file', 'err'); return; }
+      printLines([{ t:'spacer' }].concat(data));
+    },
+
+    date: function () {
+      const now = new Date();
+      println('', 'spacer');
+      println('  ' + now.toLocaleString('en-US', {
+        weekday:'long', year:'numeric', month:'long',
+        day:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit',
+      }), 'bright');
+      println('', 'spacer');
+    },
+
+    uptime: function () {
+      const secs = Math.floor((Date.now() - SESSION) / 1000);
+      const m = Math.floor(secs / 60), s = secs % 60;
+      println('', 'spacer');
+      println('  session uptime: ' + m + 'm ' + s + 's', 'bright');
+      println('', 'spacer');
+    },
+
+    history: function () {
+      println('', 'spacer');
+      if (!cmdHistory.length) { println('  (no commands yet)', 'dim'); println('', 'spacer'); return; }
+      cmdHistory.slice().reverse().forEach(function (cmd, i) {
+        println('  ' + String(i + 1).padStart(3) + '  ' + cmd, '', i * 20);
+      });
+      println('', 'spacer', cmdHistory.length * 20 + 25);
+    },
+
+    banner: function () {
+    const art = [
+      "  ██╗    ██╗██╗███████╗██╗  ██╗███╗   ██╗ ██████╗ ",
+      "  ██║    ██║██║██╔════╝██║  ██║████╗  ██║██╔═══██╗",
+      "  ██║ █╗ ██║██║███████╗███████║██╔██╗ ██║██║   ██║",
+      "  ██║███╗██║██║╚════██║██╔══██║██║╚██╗██║██║   ██║",
+      "  ╚███╔███╔╝██║███████║██║  ██║██║ ╚████║╚██████╔╝",
+      "   ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝",
+    ];
+      println('', 'spacer');
+      art.forEach(function(line, i) {
+        setTimeout(function() {
+          const el = document.createElement('span');
+          el.className = 'vt-out';
+          el.style.color = '#b85c6e';
+          el.textContent = line;
+          $out.appendChild(el);
+        }, i * 55);
+      });
+      println('', 'spacer', art.length * 55 + 30);
+    },
+
+    clear: function () { $out.innerHTML = ''; $hint.style.display = 'block'; },
+
+    bcs: function () {
+      printLines([
+        { t:'spacer' },
+        { t:'dim',    v:'  [ saul goodman, better call saul ]' },
+        { t:'spacer' },
+        { t:'',       v:'  Walk away.' },
+        { t:'',       v:"  That's right, Howard." },
+        { t:'',       v:"  You know why I didn't take the job?" },
+        { t:'pink',   v:"  Because it's too SMALL!!!" },
+        { t:'',       v:"  I don't care about it." },
+        { t:'',       v:"  It's nothing to me." },
+        { t:'',       v:"  It's a bacterium." },
+        { t:'spacer' },
+        { t:'bright', v:"  I travel in worlds you can't even imagine." },
+        { t:'bright', v:"  You can't conceive of what I'm capable of." },
+        { t:'bright', v:"  I'm so far beyond you." },
+        { t:'spacer' },
+        { t:'pink',   v:"  I'm like a god in human clothing." },
+        { t:'pink',   v:'  LIGHTNING BOLTS SHOOT FROM MY FINGER TIPS!!!' },
+        { t:'spacer' },
+      ]);
+    },
+
+    matrix: function () {
+      println('', 'spacer');
+      println('  wake up, vishnu...', 'grn');
+      println('  the matrix has you.', 'grn');
+      println('', 'spacer');
+      const chars = 'ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789ABCDEF▓▒░日';
+      let frames = 0;
+      const iv = setInterval(function () {
+        if (frames++ > 9) { clearInterval(iv); println('', 'spacer'); return; }
+        let row = '  ';
+        for (let i = 0; i < 52; i++) row += chars[Math.floor(Math.random() * chars.length)];
+        println(row, 'grn');
+        scroll();
+      }, 75);
+    },
+
+    guess: (function () {
+      let secret = null, tries = 0;
+      const MAX = 6;
+      function newGame() {
+        secret = Math.floor(Math.random() * 100) + 1; tries = 0;
+        println('', 'spacer');
+        println('  number guessing game  (1 – 100)', 'bright');
+        println('  ' + MAX + ' tries.  type: guess <number>', 'dim');
+        println('', 'spacer');
+      }
+      return function (args) {
+        if (!args || !args[0] || args[0] === 'new') { newGame(); return; }
+        if (secret === null) { println('  start with: guess new', 'dim'); return; }
+        const n = parseInt(args[0], 10);
+        if (isNaN(n)) { println('  give me a number.', 'err'); return; }
+        tries++;
+        const left = MAX - tries;
+        println('', 'spacer');
+        if (n === secret) {
+          println('  ✓ correct! it was ' + secret + '.  tries: ' + tries, 'grn');
+          secret = null; println('  play again: guess new', 'dim');
+        } else if (tries >= MAX) {
+          println('  ✗ out of tries. it was ' + secret + '.', 'err');
+          secret = null; println('  play again: guess new', 'dim');
+        } else if (n < secret) {
+          println('  too low.  ' + left + ' left.', n < secret - 25 ? 'dim' : '');
+        } else {
+          println('  too high.  ' + left + ' left.', n > secret + 25 ? 'dim' : '');
+        }
+        println('', 'spacer');
+      };
+    })(),
+  };
+
+  const ALL_CMDS  = Object.keys(CMDS);
+  const ALL_FILES = [...Object.keys(FILES), 'contact.txt', 'resume.pdf'];
+  const ALL_DIRS  = Object.keys(FS).filter(k => k !== '~').map(k => k + '/');
+
+  $input.addEventListener('keydown', function (e) {
+    resetIdle();
+
+    if (e.key === 'Enter') {
+      const raw = $input.value.trim();
+      $input.value = ''; histIdx = -1;
+      $hint.style.display = 'none';
+      if (!raw) return;
+      cmdHistory.unshift(raw);
+      printEcho(raw);
+      println('', 'spacer');
+      const [cmd, ...args] = raw.split(/\s+/);
+      if (CMDS[cmd]) {
+        CMDS[cmd](args);
+      } else {
+        println('  ' + cmd + ': command not found  —  type help', 'err');
+      }
+      println('', 'spacer');
+      scroll();
+      return;
+    }
+
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (histIdx < cmdHistory.length - 1) histIdx++;
+      $input.value = cmdHistory[histIdx] || '';
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (histIdx > 0) { histIdx--; $input.value = cmdHistory[histIdx] || ''; }
+      else { histIdx = -1; $input.value = ''; }
+      return;
+    }
+
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const val = $input.value, parts = val.split(/\s+/);
+      if (parts.length === 1) {
+        const m = ALL_CMDS.filter(c => c.startsWith(val));
+        if (m.length === 1) $input.value = m[0];
+        else if (m.length > 1) { println(''); println('  ' + m.join('   '), 'dim'); scroll(); }
+      } else {
+        const partial = parts[parts.length - 1];
+        const cands = [...ALL_FILES, ...ALL_DIRS].filter(f => f.startsWith(partial));
+        if (cands.length === 1) { parts[parts.length - 1] = cands[0]; $input.value = parts.join(' '); }
+        else if (cands.length > 1) { println(''); println('  ' + cands.join('   '), 'dim'); scroll(); }
+      }
+      return;
+    }
+
+    if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); CMDS.clear(); return; }
+    if (e.key === 'c' && e.ctrlKey) {
+      printEcho($input.value + '^C'); $input.value = '';
+      println('', 'spacer'); scroll(); return;
+    }
+    if (e.key === 'u' && e.ctrlKey) { e.preventDefault(); $input.value = ''; return; }
+  });
+
+  $input.addEventListener('input', resetIdle);
+  $body.addEventListener('click', () => $input.focus());
+
+})();
+</script>
+
 </body>
-
-<section>
-      <footer>
-         <p>"they hate us cause ya aint us !"</p>
-         <p>2026</p>
-      </footer>
-</section>
-
 </html>

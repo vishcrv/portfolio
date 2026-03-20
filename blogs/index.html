@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>blogs</title>
+<title>blogs — vishnu cv</title>
 <link rel="icon" type="image/png" href="../imgs/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
@@ -11,23 +11,12 @@
 
   :root {
     --bg: #0a0a0a;
-    --text: #f0f0f0;
+    --text: #ebebeb;
     --pink: #f2c4ce;
-    --dim: #888;
+    --dim: #777;
     --dim2: #555;
-    --border: #1c1c1c;
-    --card-bg: #0f0f0f;
+    --border: #1e1e1e;
     --mono: 'JetBrains Mono', monospace;
-  }
-
-  :root.light {
-    --bg: #fafafa;
-    --text: #111;
-    --pink: #9b4d6a;
-    --dim: #666;
-    --dim2: #999;
-    --border: #e0e0e0;
-    --card-bg: #f0f0f0;
   }
 
   html { scroll-behavior: smooth; }
@@ -39,8 +28,36 @@
     font-size: 14px;
     line-height: 1.8;
     -webkit-font-smoothing: antialiased;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    transition: background 0.3s, color 0.3s;
+    min-height: 100vh;
+  }
+
+  /* same pink glow as home page */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% -10%, #5b003b 0%, #370022 20%, #16000b 45%, #080003 65%, #000000 100%);
+    z-index: -1;
+    opacity: 0;
+    animation: fadeInBg 2s ease-in-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes fadeInBg {
+    0%   { opacity: 0; }
+    80%  { opacity: 0.9; }
+    100% { opacity: 1; }
+  }
+
+  /* grain */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+    opacity: 0.7;
   }
 
   .wrap {
@@ -49,170 +66,95 @@
     padding: 0 24px;
   }
 
-  /* -- Nav -- */
+  /* nav */
   nav {
     padding: 48px 0 40px;
     border-bottom: 1px solid var(--border);
     margin-bottom: 56px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-  }
-
-  .nav-left {
-    display: flex;
-    align-items: center;
     gap: 24px;
   }
 
   .site-name {
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--pink);
-    letter-spacing: 0.06em;
-    text-decoration: none;
+    font-size: 12px; font-weight: 400;
+    color: var(--pink); letter-spacing: 0.06em; text-decoration: none;
   }
-
   .site-name:hover { opacity: 0.7; }
 
   .nav-link {
-    font-size: 11px;
-    color: var(--dim);
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    transition: color 0.2s;
+    font-size: 11px; color: var(--dim);
+    text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s;
   }
-
   .nav-link:hover { color: var(--text); }
 
-  .theme-toggle {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    color: var(--dim);
-    font-family: var(--mono);
-    font-size: 10px;
-    padding: 4px 10px;
-    cursor: pointer;
-    letter-spacing: 0.04em;
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .theme-toggle:hover {
-    color: var(--text);
-    border-color: var(--dim);
-  }
-
-  /* -- Page header -- */
-  .page-header {
-    margin-bottom: 64px;
-  }
+  /* page header */
+  .page-header { margin-bottom: 64px; }
 
   .page-header h1 {
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--text);
-    line-height: 1.35;
-    letter-spacing: -0.01em;
-    margin-bottom: 10px;
+    font-size: 22px; font-weight: 400; color: var(--text);
+    line-height: 1.35; letter-spacing: -0.01em; margin-bottom: 10px;
   }
 
   .page-tagline {
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--dim);
-    line-height: 1.6;
+    font-size: 13px; font-weight: 300;
+    color: var(--dim); line-height: 1.6;
   }
 
-  /* -- Post cards -- */
+  /* post list */
   .post-list {
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-    padding-bottom: 96px;
+    display: flex; flex-direction: column;
+    gap: 48px; padding-bottom: 96px;
   }
 
   .post-card {
     border-bottom: 1px solid var(--border);
     padding-bottom: 48px;
   }
-
-  .post-card:last-child {
-    border-bottom: none;
-  }
+  .post-card:last-child { border-bottom: none; }
 
   .featured-badge {
     display: inline-block;
-    font-size: 10px;
-    color: var(--pink);
-    letter-spacing: 0.08em;
-    margin-bottom: 14px;
-    border: 1px solid var(--pink);
-    padding: 2px 8px;
-    border-radius: 2px;
+    font-size: 10px; color: var(--pink);
+    letter-spacing: 0.08em; margin-bottom: 14px;
+    border: 1px solid rgba(242,196,206,0.4);
+    padding: 2px 8px; border-radius: 2px;
     opacity: 0.8;
   }
 
   .post-meta {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 14px;
-    font-size: 11px;
-    color: var(--dim);
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 14px; font-size: 11px; color: var(--dim);
   }
-
   .meta-sep { color: var(--border); }
 
   .post-title {
-    font-size: 17px;
-    font-weight: 400;
-    line-height: 1.4;
-    margin-bottom: 12px;
+    font-size: 17px; font-weight: 400;
+    line-height: 1.4; margin-bottom: 12px;
   }
 
   .post-title a {
-    color: var(--text);
-    text-decoration: none;
-    transition: color 0.2s;
+    color: var(--text); text-decoration: none; transition: color 0.2s;
   }
-
-  .post-title a:hover {
-    color: var(--pink);
-  }
+  .post-title a:hover { color: var(--pink); }
 
   .post-excerpt {
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--dim);
-    line-height: 1.75;
-    margin-bottom: 16px;
+    font-size: 13px; font-weight: 300;
+    color: var(--dim); line-height: 1.75; margin-bottom: 16px;
   }
 
-  .post-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
+  .post-tags { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .tag {
-    font-size: 10px;
-    color: var(--dim2);
-    letter-spacing: 0.04em;
-    padding: 3px 8px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    transition: color 0.2s;
+    font-size: 10px; color: var(--dim2); letter-spacing: 0.04em;
+    padding: 3px 8px; border: 1px solid var(--border); border-radius: 2px;
   }
 
-  /* -- Footer -- */
+  /* footer */
   footer {
-    border-top: 1px solid var(--border);
-    padding: 28px 0 48px;
-    font-size: 11px;
-    color: var(--dim);
-    display: flex;
-    justify-content: space-between;
+    border-top: 1px solid var(--border); padding: 28px 0 48px;
+    font-size: 11px; color: var(--dim);
+    display: flex; justify-content: space-between;
   }
 
   ::-webkit-scrollbar { width: 4px; }
@@ -230,23 +172,37 @@
 <div class="wrap">
 
   <nav>
-    <div class="nav-left">
-      <a href="../" class="site-name">vishnu cv</a>
-      <a href="../" class="nav-link">/home</a>
-    </div>
-    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">light</button>
+    <a href="../" class="site-name">vishnu cv</a>
+    <a href="../" class="nav-link">/home</a>
   </nav>
 
   <div class="page-header">
     <h1>blogs</h1>
-    <p class="page-tagline">learning in public — notes on code, design, and building things from scratch.</p>
+    <p class="page-tagline">learning in public. notes on code, design, and building things from scratch.</p>
   </div>
 
   <div class="post-list">
 
-    <!-- post 1 -->
     <div class="post-card">
       <div class="featured-badge">featured</div>
+      <div class="post-meta">
+        <span>2026.03.20</span>
+        <span class="meta-sep">/</span>
+        <span>6 min read</span>
+      </div>
+      <h2 class="post-title">
+        <a href="git/">git is not about the commands</a>
+      </h2>
+      <p class="post-excerpt">
+        today started with something i've technically "used" before. git. most of that usage was mechanical. copy commands. push code. hope nothing breaks.
+      </p>
+      <div class="post-tags">
+        <span class="tag">git</span>
+        <span class="tag">version control</span>
+      </div>
+    </div>
+
+    <div class="post-card">
       <div class="post-meta">
         <span>2026.03.11</span>
         <span class="meta-sep">/</span>
@@ -256,7 +212,7 @@
         <a href="python-cli-book-manager/">what i learned today while designing a python cli book manager</a>
       </h2>
       <p class="post-excerpt">
-        today started with something that looked simple on the surface — build a cli book manager in python. but instead of just writing something that works, i tried thinking about it more like a small system design exercise.
+        today started with something that looked simple on the surface. build a cli book manager in python. but instead of just writing something that works, i tried thinking about it more like a small system design exercise.
       </p>
       <div class="post-tags">
         <span class="tag">python</span>
@@ -273,15 +229,6 @@
   </footer>
 
 </div>
-
-<script>
-  function toggleTheme() {
-    const root = document.documentElement;
-    const btn = document.getElementById('themeBtn');
-    root.classList.toggle('light');
-    btn.textContent = root.classList.contains('light') ? 'dark' : 'light';
-  }
-</script>
 
 </body>
 </html>
