@@ -463,7 +463,7 @@ window.addEventListener('scroll', () => {
     $prompt.textContent = 'vishnu@portfolio:' + cwd + '$ ';
   }
 
-  // BOOT
+  // BOOT — art rendered always, hidden on mobile via CSS (.vt-art-line)
   (function boot() {
     const art = [
       "  ██╗    ██╗██╗███████╗██╗  ██╗███╗   ██╗ ██████╗ ",
@@ -476,7 +476,7 @@ window.addEventListener('scroll', () => {
     art.forEach(function(line, i) {
       setTimeout(function() {
         const el = document.createElement('span');
-        el.className = 'vt-out';
+        el.className = 'vt-out vt-art-line';
         el.style.color = '#b85c6e';
         el.textContent = line;
         $out.appendChild(el);

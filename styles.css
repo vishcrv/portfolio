@@ -453,8 +453,38 @@ footer {
 }
 
 @media (max-width: 600px) {
+  /* layout */
   .grid { grid-template-columns: 1fr; }
+  .wrap { padding: 0 18px; }
+
+  /* header */
   .name { font-size: 20px; }
-  .vterm-body{min-height:220px;padding:16px 16px 12px;}
-  .vt-out,.vt-input,.vt-prompt-live,.vt-cmd-echo-row{font-size:11.5px;}
+
+  /* skill section: left-align on mobile */
+  .skill { text-align: left; }
+  .skill-card { margin: 0 0 48px; }
+
+  /* project cards: easier to read */
+  .project-bullets li { font-size: 13px; }
+
+  /* terminal: more room, bigger text */
+  .vterm-body { min-height: 220px; padding: 14px 14px 12px; }
+  .vt-out,
+  .vt-input,
+  .vt-prompt-live,
+  .vt-cmd-echo-row { font-size: 13px; }
+  .vterm-label { font-size: 10px; }
+
+  /* hide ASCII art on mobile — CSS handles this so DevTools resize works too */
+  .vt-art-line { display: none !important; }
+
+  /* achievements */
+  .achievement-item { font-size: 12px; }
+}
+
+/* scroll offset for sidebar nav links */
+#experience,
+#achievements,
+#terminal {
+  scroll-margin-top: 48px;
 }
