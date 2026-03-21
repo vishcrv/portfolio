@@ -53,16 +53,6 @@ body::after {
 }
 
 /* progress bar */
-#progress {
-  position: fixed;
-  top: 0; left: 0;
-  height: 2px;
-  width: 0%;
-  background: var(--pink);
-  z-index: 9999;
-  transition: width 0.08s linear;
-}
-
 .wrap {
   max-width: 760px;
   margin: 0 auto;
@@ -310,14 +300,6 @@ header {
   color: var(--text);
   font-weight: 400;
 }
-
-.achievement-item a {
-  color: #999;
-  text-decoration: none;
-  font-weight: 400;
-}
-
-.achievement-item a:hover { color: var(--text); }
 
 /* ── TERMINAL (vterm) ── */
 .vterm-wrap {

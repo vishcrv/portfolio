@@ -57,6 +57,41 @@
 <link rel="stylesheet" href="styles.css">
 
 <style>
+/* ── LOADER ── */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  pointer-events: all;
+  background: #080808;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.7s ease;
+}
+
+#loader.fade-out { opacity: 0; }
+
+.loader-bar-wrap {
+  width: 200px;
+  height: 3px;
+  background: #1a1a1a;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.loader-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow:
+    0 0 6px rgba(255,255,255,0.8),
+    0 0 18px rgba(255,255,255,0.35);
+  transition: width 0.22s ease;
+}
+
 /* ── CUSTOM CURSOR ── */
 .cursor-dot,
 .cursor-ring {
@@ -361,12 +396,17 @@ body:has(.project-card:hover) .cursor-ring {
 </head>
 <body>
 
+<!-- ── LOADER ── -->
+<div id="loader">
+  <div class="loader-bar-wrap">
+    <div class="loader-bar" id="loaderBar"></div>
+  </div>
+</div>
+
 <!-- Custom cursor -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- Reading progress -->
-<div id="progress"></div>
 
 <!-- ═══════════════════════════════════════
      HERO — cinematic opener
@@ -545,10 +585,10 @@ body:has(.project-card:hover) .cursor-ring {
   <section class="achievements-section reveal" id="experience">
     <div class="section-title">experience</div>
     <div class="achievement-item">
-      <span><strong><span class="stat-number" data-count="0" data-suffix="Full Stack Developer Intern">Full Stack Developer Intern</span> — <a href="https://www.linkedin.com/company/dairaedtech/posts/?feedView=all" target="_blank"><b>Daira EdTech</b></a></strong> <span class="ach-date">Jul – Sep 2025</span><br>engineered <span class="stat-number" data-count="8" data-suffix="+">8+</span> REST endpoints · architected full-stack features using React + FastAPI for the UPSC Yantra platform · improved data retrieval efficiency and reduced API response overhead.</span>
+      <span><strong><span class="stat-number" data-count="0" data-suffix="Full Stack Developer Intern">Full Stack Developer Intern</span> — Daira EdTech</strong> <span class="ach-date">Jul – Sep 2025</span><br>engineered <span class="stat-number" data-count="8" data-suffix="+">8+</span> REST endpoints · architected full-stack features using React + FastAPI for the UPSC Yantra platform · improved data retrieval efficiency and reduced API response overhead.</span>
     </div>
     <div class="achievement-item">
-      <span><strong><span class="stat-number" data-count="0" data-suffix="Head of Creatives">Head of Creatives</span> — <a href="https://www.instagram.com/fyivitc/" target="_blank"><b>Fraternity of Young Innovators</b></a></strong> <span class="ach-date">Mar 2025 – present</span><br>led creative team of 10 across photography and video production · produced <span class="stat-number" data-count="50" data-suffix="+">50+</span> reels reaching <span class="stat-number" data-count="1" data-suffix="M+ views">1M+ views</span> · grew avg views per post <span class="stat-number" data-count="233" data-suffix="%">233%</span>.</span>
+      <span><strong><span class="stat-number" data-count="0" data-suffix="Head of Creatives">Head of Creatives</span> — Fraternity of Young Innovators</strong> <span class="ach-date">Mar 2025 – present</span><br>led creative team of 10 across photography and video production · produced <span class="stat-number" data-count="50" data-suffix="+">50+</span> reels reaching <span class="stat-number" data-count="1" data-suffix="M+ views">1M+ views</span> · grew avg views per post <span class="stat-number" data-count="233" data-suffix="%">233%</span>.</span>
     </div>
   </section>
 
@@ -621,6 +661,48 @@ body:has(.project-card:hover) .cursor-ring {
 // ── GSAP ScrollTrigger registration
 gsap.registerPlugin(ScrollTrigger);
 
+// ── LOADER
+(function initLoader() {
+  const loader = document.getElementById('loader');
+  const bar    = document.getElementById('loaderBar');
+
+  let progress = 0;
+  let dismissed = false;
+
+  // smooth fake progress — starts slow, accelerates, holds at 88 waiting for real load
+  const fakeInterval = setInterval(() => {
+    if (progress < 88) {
+      const step = progress < 40 ? 1.5 : progress < 70 ? 2.5 : 1;
+      progress = Math.min(progress + step + Math.random() * 1.5, 88);
+      bar.style.width = progress + '%';
+    }
+  }, 80);
+
+  function dismiss() {
+    if (dismissed) return;
+    dismissed = true;
+    clearInterval(fakeInterval);
+    // snap to 100%, brief pause, then fade
+    bar.style.transition = 'width 0.3s ease';
+    bar.style.width = '100%';
+
+    setTimeout(() => {
+      loader.classList.add('fade-out');
+      setTimeout(() => loader.remove(), 750);
+    }, 380);
+  }
+
+  // Trigger on full page load
+  if (document.readyState === 'complete') {
+    setTimeout(dismiss, 400);
+  } else {
+    window.addEventListener('load', () => setTimeout(dismiss, 300));
+  }
+
+  // Hard fallback — never wait more than 8s
+  setTimeout(dismiss, 8000);
+})();
+
 // ── CINEMATIC HERO SCROLL STORY
 (function initHero() {
   const img1    = document.getElementById('heroImg1');
@@ -683,12 +765,7 @@ gsap.registerPlugin(ScrollTrigger);
   });
 })();
 
-// ── READING PROGRESS BAR
-const bar = document.getElementById('progress');
-window.addEventListener('scroll', () => {
-  const d = document.documentElement;
-  bar.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
-});
+
 
 // ── SMOOTH SCROLL TO SECTION
 function smoothTo(id, e) {
