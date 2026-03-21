@@ -5,230 +5,225 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>blogs — vishnu cv</title>
 <link rel="icon" type="image/png" href="../imgs/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0a0a0a;
-    --text: #ebebeb;
-    --pink: #f2c4ce;
-    --dim: #777;
-    --dim2: #555;
-    --border: #1e1e1e;
-    --mono: 'JetBrains Mono', monospace;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 14px;
-    line-height: 1.8;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-  }
-
-  /* same pink glow as home page */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% -10%, #5b003b 0%, #370022 20%, #16000b 45%, #080003 65%, #000000 100%);
-    z-index: -1;
-    opacity: 0;
-    animation: fadeInBg 2s ease-in-out forwards;
-    pointer-events: none;
-  }
-
-  @keyframes fadeInBg {
-    0%   { opacity: 0; }
-    80%  { opacity: 0.9; }
-    100% { opacity: 1; }
-  }
-
-  /* grain */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9998;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
-    opacity: 0.7;
-  }
-
-  .wrap {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  /* nav */
-  nav {
-    padding: 48px 0 40px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 56px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-
-  .site-name {
-    font-size: 12px; font-weight: 400;
-    color: var(--pink); letter-spacing: 0.06em; text-decoration: none;
-  }
-  .site-name:hover { opacity: 0.7; }
-
-  .nav-link {
-    font-size: 11px; color: var(--dim);
-    text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s;
-  }
-  .nav-link:hover { color: var(--text); }
-
-  /* page header */
-  .page-header { margin-bottom: 64px; }
-
-  .page-header h1 {
-    font-size: 22px; font-weight: 400; color: var(--text);
-    line-height: 1.35; letter-spacing: -0.01em; margin-bottom: 10px;
-  }
-
-  .page-tagline {
-    font-size: 13px; font-weight: 300;
-    color: var(--dim); line-height: 1.6;
-  }
-
-  /* post list */
-  .post-list {
-    display: flex; flex-direction: column;
-    gap: 48px; padding-bottom: 96px;
-  }
-
-  .post-card {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 48px;
-  }
-  .post-card:last-child { border-bottom: none; }
-
-  .featured-badge {
-    display: inline-block;
-    font-size: 10px; color: var(--pink);
-    letter-spacing: 0.08em; margin-bottom: 14px;
-    border: 1px solid rgba(242,196,206,0.4);
-    padding: 2px 8px; border-radius: 2px;
-    opacity: 0.8;
-  }
-
-  .post-meta {
-    display: flex; align-items: center; gap: 14px;
-    margin-bottom: 14px; font-size: 11px; color: var(--dim);
-  }
-  .meta-sep { color: var(--border); }
-
-  .post-title {
-    font-size: 17px; font-weight: 400;
-    line-height: 1.4; margin-bottom: 12px;
-  }
-
-  .post-title a {
-    color: var(--text); text-decoration: none; transition: color 0.2s;
-  }
-  .post-title a:hover { color: var(--pink); }
-
-  .post-excerpt {
-    font-size: 13px; font-weight: 300;
-    color: var(--dim); line-height: 1.75; margin-bottom: 16px;
-  }
-
-  .post-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-
-  .tag {
-    font-size: 10px; color: var(--dim2); letter-spacing: 0.04em;
-    padding: 3px 8px; border: 1px solid var(--border); border-radius: 2px;
-  }
-
-  /* footer */
-  footer {
-    border-top: 1px solid var(--border); padding: 28px 0 48px;
-    font-size: 11px; color: var(--dim);
-    display: flex; justify-content: space-between;
-  }
-
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
-
-  @media (max-width: 520px) {
-    .page-header h1 { font-size: 18px; }
-    .post-title { font-size: 15px; }
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #080808; --text: #e8e8e8; --pink: #f2c4ce;
+  --dim: #555; --dim2: #333; --border: #161616;
+  --mono: 'JetBrains Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--mono); font-size: 14px; line-height: 1.8;
+  -webkit-font-smoothing: antialiased; min-height: 100vh;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 27px, rgba(255,255,255,0.025) 27px, rgba(255,255,255,0.025) 28px);
+}
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23n)' opacity='0.085'/%3E%3C/svg%3E");
+}
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  background: rgba(8,8,8,0.75); border-bottom: 1px solid var(--border);
+}
+.nav-home { font-size: 11px; color: var(--dim); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+.nav-home:hover { color: var(--pink); }
+.nav-count { font-size: 11px; color: var(--dim2); letter-spacing: 0.06em; }
+.hero { padding: 140px 40px 56px; position: relative; overflow: hidden; }
+.hero-bg-num {
+  position: absolute; right: -10px; top: 50px;
+  font-size: clamp(160px, 26vw, 300px); font-weight: 500;
+  color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.035);
+  line-height: 1; letter-spacing: -0.04em; pointer-events: none; user-select: none;
+}
+.hero-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim2); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+.hero-title { font-size: clamp(52px, 9vw, 96px); font-weight: 400; letter-spacing: -0.04em; line-height: 0.95; color: var(--text); margin-bottom: 28px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; }
+.hero-title span { color: transparent; -webkit-text-stroke: 1px rgba(232,232,232,0.3); }
+.hero-sub { font-size: 12px; color: var(--dim); font-weight: 300; max-width: 360px; line-height: 1.7; opacity: 0; animation: fadeUp 0.6s ease forwards 0.3s; }
+.search-section { padding: 0 40px; margin-bottom: 12px; opacity: 0; animation: fadeUp 0.5s ease forwards 0.4s; }
+.search-wrap {
+  display: flex; align-items: center; background: #111; border-radius: 999px;
+  padding: 0 22px; border: 1px solid var(--border); max-width: 440px;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.03) inset;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-wrap:focus-within { border-color: #282828; box-shadow: 0 4px 20px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.04) inset; }
+.search-wrap:hover:not(:focus-within) { background: #131313; }
+.search-icon { color: #252525; font-size: 14px; margin-right: 10px; flex-shrink: 0; transition: color 0.2s; }
+.search-wrap:focus-within .search-icon { color: var(--dim); }
+.search-input { flex: 1; background: transparent; border: none; padding: 12px 0; font-family: var(--mono); font-size: 12px; color: var(--text); outline: none; letter-spacing: 0.02em; }
+.search-input::placeholder { color: #202020; }
+.section-divider { margin: 36px 40px 0; display: flex; align-items: center; gap: 16px; opacity: 0; animation: fadeUp 0.5s ease forwards 0.48s; }
+.divider-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim2); white-space: nowrap; }
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.post-list { padding: 0; }
+.post-row {
+  position: relative; display: grid; grid-template-columns: 68px 1fr;
+  align-items: start; padding: 28px 40px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; overflow: hidden;
+  opacity: 0; animation: fadeUp 0.5s ease forwards;
+  transition: background 0.22s;
+}
+.post-row:first-child { border-top: 1px solid var(--border); }
+.post-row:hover { background: rgba(255,255,255,0.015); }
+.post-row::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--pink); transform: scaleY(0); transform-origin: bottom;
+  transition: transform 0.28s ease;
+}
+.post-row:hover::before { transform: scaleY(1); }
+.post-row::after {
+  content: attr(data-verb); position: absolute; right: 36px; top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(28px, 4.5vw, 50px); font-weight: 500;
+  color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.03);
+  letter-spacing: -0.03em; pointer-events: none; user-select: none;
+  transition: -webkit-text-stroke-color 0.3s;
+}
+.post-row:hover::after { -webkit-text-stroke-color: rgba(242,196,206,0.07); }
+.post-num { font-size: 11px; color: var(--dim2); letter-spacing: 0.06em; padding-top: 4px; font-variant-numeric: tabular-nums; }
+.post-top { display: flex; align-items: center; gap: 12px; margin-bottom: 9px; flex-wrap: wrap; }
+.post-verb-tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim2); font-style: italic; }
+.post-date { font-size: 10px; color: var(--dim2); }
+.post-dot { color: var(--border); }
+.post-readtime { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--dim2); }
+.read-bar { width: 30px; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.read-bar-fill { height: 100%; background: var(--dim2); border-radius: 2px; transition: background 0.2s; }
+.post-row:hover .read-bar-fill { background: var(--pink); }
+.post-title { font-size: 16px; font-weight: 400; line-height: 1.35; color: var(--text); margin-bottom: 10px; letter-spacing: -0.01em; transition: color 0.2s; }
+.post-row:hover .post-title { color: #fff; }
+.post-excerpt { font-size: 12px; font-weight: 300; color: var(--dim); line-height: 1.7; max-width: 460px; margin-bottom: 14px; }
+.post-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font-size: 10px; color: var(--dim2); letter-spacing: 0.04em; padding: 2px 7px; border: 1px solid var(--border); border-radius: 2px; transition: border-color 0.2s, color 0.2s; }
+.post-row:hover .tag { border-color: #252525; color: var(--dim); }
+.post-row.hidden { display: none !important; }
+.no-results { padding: 60px 40px; font-size: 12px; color: var(--dim2); display: none; }
+footer { padding: 28px 40px; display: flex; justify-content: flex-end; font-size: 11px; color: var(--dim2); border-top: 1px solid var(--border); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #1e1e1e; }
+@media (max-width: 600px) {
+  nav { padding: 16px 20px; }
+  .hero { padding: 100px 20px 40px; }
+  .hero-bg-num { font-size: 120px; right: -5px; }
+  .search-section, .section-divider { padding-left: 20px; padding-right: 20px; }
+  .post-row { padding: 20px 20px; grid-template-columns: 40px 1fr; }
+  .post-row::after { display: none; }
+  .post-title { font-size: 14px; }
+}
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<nav>
+  <a href="../" class="nav-home">← home</a>
+  <span class="nav-count" id="navCount">02 entries</span>
+</nav>
 
-  <nav>
-    <a href="../" class="site-name">vishnu cv</a>
-    <a href="../" class="nav-link">/home</a>
-  </nav>
+<div class="hero">
+  <div class="hero-bg-num" id="heroBgNum">02</div>
+  <p class="hero-label">writing / index</p>
+  <h1 class="hero-title">blogs<span>.</span></h1>
+  <p class="hero-sub">notes on things i built, broke, and thought about. learning in public.</p>
+</div>
 
-  <div class="page-header">
-    <h1>blogs</h1>
-    <p class="page-tagline">learning in public. notes on code, design, and building things from scratch.</p>
+<div class="search-section">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input class="search-input" id="searchInput" type="text"
+      placeholder="search posts, tags, topics..."
+      autocomplete="off" spellcheck="false" />
   </div>
+</div>
 
-  <div class="post-list">
+<div class="section-divider">
+  <span class="divider-label">all posts</span>
+  <div class="divider-line"></div>
+</div>
 
-    <div class="post-card">
-      <div class="featured-badge">featured</div>
-      <div class="post-meta">
-        <span>2026.03.20</span>
-        <span class="meta-sep">/</span>
-        <span>6 min read</span>
+<div class="post-list" id="postList">
+
+  <div class="post-row" data-verb="thoughts" data-tags="git version-control thoughts"
+       style="animation-delay:0.55s" onclick="window.location='git/'">
+    <div class="post-num">01</div>
+    <div class="post-content">
+      <div class="post-top">
+        <span class="post-verb-tag">thoughts</span>
+        <span class="post-dot">·</span>
+        <span class="post-date">2026.03.20</span>
+        <span class="post-dot">·</span>
+        <div class="post-readtime">
+          <div class="read-bar"><div class="read-bar-fill" style="width:60%"></div></div>
+          <span>6 min</span>
+        </div>
       </div>
-      <h2 class="post-title">
-        <a href="git/">git is not about the commands</a>
-      </h2>
-      <p class="post-excerpt">
-        today started with something i've technically "used" before. git. most of that usage was mechanical. copy commands. push code. hope nothing breaks.
-      </p>
+      <h2 class="post-title">git is not about the commands</h2>
+      <p class="post-excerpt">copy commands. push code. hope nothing breaks. then something did.</p>
       <div class="post-tags">
         <span class="tag">git</span>
         <span class="tag">version control</span>
       </div>
     </div>
+  </div>
 
-    <div class="post-card">
-      <div class="post-meta">
-        <span>2026.03.11</span>
-        <span class="meta-sep">/</span>
-        <span>8 min read</span>
+  <div class="post-row" data-verb="design" data-tags="python system-design design"
+       style="animation-delay:0.65s" onclick="window.location='python-cli-book-manager/'">
+    <div class="post-num">02</div>
+    <div class="post-content">
+      <div class="post-top">
+        <span class="post-verb-tag">design</span>
+        <span class="post-dot">·</span>
+        <span class="post-date">2026.03.11</span>
+        <span class="post-dot">·</span>
+        <div class="post-readtime">
+          <div class="read-bar"><div class="read-bar-fill" style="width:80%"></div></div>
+          <span>8 min</span>
+        </div>
       </div>
-      <h2 class="post-title">
-        <a href="python-cli-book-manager/">what i learned today while designing a python cli book manager</a>
-      </h2>
-      <p class="post-excerpt">
-        today started with something that looked simple on the surface. build a cli book manager in python. but instead of just writing something that works, i tried thinking about it more like a small system design exercise.
-      </p>
+      <h2 class="post-title">what i learned today while designing a python cli book manager</h2>
+      <p class="post-excerpt">a cli book manager that turned into a system design exercise.</p>
       <div class="post-tags">
         <span class="tag">python</span>
         <span class="tag">system design</span>
-        <span class="tag">learning log</span>
       </div>
     </div>
-
   </div>
-
-  <footer>
-    <span>vishnu cv</span>
-    <span>2026</span>
-  </footer>
 
 </div>
 
+<div class="no-results" id="noResults">no posts match that search.</div>
+
+<footer><span>2026</span></footer>
+
+<script>
+const input = document.getElementById('searchInput');
+const rows  = document.querySelectorAll('.post-row');
+const noRes = document.getElementById('noResults');
+const navC  = document.getElementById('navCount');
+const bgNum = document.getElementById('heroBgNum');
+const total = rows.length;
+
+input.addEventListener('input', () => {
+  const q = input.value.toLowerCase().trim();
+  let vis = 0;
+  rows.forEach(r => {
+    const m = !q || r.textContent.toLowerCase().includes(q) || (r.dataset.tags||'').toLowerCase().includes(q);
+    r.classList.toggle('hidden', !m);
+    if (m) vis++;
+  });
+  noRes.style.display = (!q || vis > 0) ? 'none' : 'block';
+  navC.textContent = q ? vis + ' result' + (vis !== 1 ? 's' : '') : String(total).padStart(2,'0') + ' entries';
+  bgNum.textContent = String(q ? vis : total).padStart(2,'0');
+});
+</script>
 </body>
 </html>

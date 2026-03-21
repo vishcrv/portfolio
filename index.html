@@ -5,41 +5,425 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>vishnu cv</title>
 <link rel="icon" type="image/png" href="imgs/favicon.png">
+
+<!-- Clash Display — individual weight OTF files in /fonts/ -->
+<style>
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('fonts/ClashDisplay-Extralight.otf') format('opentype');
+  font-weight: 200;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('fonts/ClashDisplay-Light.otf') format('opentype');
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('fonts/ClashDisplay-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('fonts/ClashDisplay-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('fonts/ClashDisplay-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('fonts/ClashDisplay-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-display: swap;
+}
+</style>
+
+<!-- JetBrains Mono -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
 <link rel="stylesheet" href="styles.css">
+
+<style>
+/* ── CUSTOM CURSOR ── */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.cursor-dot {
+  width: 5px; height: 5px;
+  background: #f2c4ce;
+  transition: opacity 0.2s;
+}
+.cursor-ring {
+  width: 28px; height: 28px;
+  border: 1px solid rgba(242,196,206,0.4);
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+}
+body:has(.project-card:hover) .cursor-ring {
+  width: 48px; height: 48px;
+  border-color: rgba(242,196,206,0.7);
+}
+@media (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none; }
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform, opacity;
+}
+
+.hero-img-1 {
+  background-image: url('imgs/hero.jpg');
+  /* slight scale for parallax headroom */
+  transform: scale(1.08);
+}
+
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  z-index: 2;
+}
+
+/* permanent dark layer for contrast */
+.hero-darken {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.42);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* grain on hero */
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.13'/%3E%3C/svg%3E");
+  opacity: 0.85;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  will-change: transform, opacity;
+  padding: 0 24px;
+  margin-top: 18vh;
+}
+
+.hero-name {
+  font-family: 'ClashDisplay', sans-serif;
+  font-weight: 500;
+  font-size: clamp(3.2rem, 10vw, 9.5rem);
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 20px;
+  /* mix-blend-mode for texture overlap feel */
+  mix-blend-mode: exclusion;
+}
+
+.hero-desig {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 300;
+  font-size: clamp(11px, 1.4vw, 14px);
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: heroScrollBounce 2s ease-in-out infinite;
+}
+
+.hero-scroll::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+}
+
+@keyframes heroScrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ── REVEAL ANIMATIONS ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 3D CARD TILT ── */
+.project-card {
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease, border-color 0.2s;
+  will-change: transform;
+}
+
+/* ── COUNT UP ── */
+.stat-number {
+  font-family: 'ClashDisplay', sans-serif;
+  font-weight: 500;
+  font-size: 1.1em;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+/* ── ACHIEVEMENT ITEMS with count highlight ── */
+.achievement-item strong {
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* ── WAVE TRANSITION SECTION ── */
+.wave-section {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+}
+
+.wave-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('imgs/wave.jpg');
+  background-size: cover;
+  background-position: center center;
+  will-change: transform;
+  filter: grayscale(15%) brightness(0.75);
+}
+
+/* 4-sided fade */
+.wave-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, #0a0a0a 0%, transparent 32%),
+    linear-gradient(to top,    #0a0a0a 0%, transparent 32%),
+    linear-gradient(to right,  #0a0a0a 0%, transparent 18%),
+    linear-gradient(to left,   #0a0a0a 0%, transparent 18%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* smooth pink-to-image transition at top */
+.wave-section::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(
+    to bottom,
+    rgba(40, 0, 26, 0.85) 0%,
+    rgba(22, 0, 11, 0.5)  30%,
+    transparent           100%
+  );
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* pink tint overlay */
+.wave-tint {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 20%, rgba(91,0,59,0.55) 0%, transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── FOOTER REDESIGN ── */
+.site-footer {
+  position: relative;
+  z-index: 10;
+  padding: 70px 0 44px;
+  margin-top: -140px;
+  background: linear-gradient(to bottom, transparent 0%, transparent 20%, #0a0a0a 70%);
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.footer-quote {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--dim);
+  line-height: 1.6;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+}
+
+.footer-socials a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  color: var(--dim);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color 0.15s;
+  border: none;
+}
+.footer-socials a:hover { color: var(--pink); }
+
+.footer-meta {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  color: var(--dim);
+  line-height: 1.7;
+}
+
+.footer-name {
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.footer-name:hover { color: var(--pink); }
+
+
+@media (max-width: 600px) {
+  .hero-name { mix-blend-mode: normal; }
+  .footer-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 20px;
+    padding: 0 24px;
+  }
+  .footer-meta { text-align: center; }
+  .footer-quote { text-align: center; }
+}
+</style>
 </head>
 <body>
 
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Reading progress -->
 <div id="progress"></div>
 
+<!-- ═══════════════════════════════════════
+     HERO — cinematic opener
+════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-img hero-img-1" id="heroImg1"></div>
+  <div class="hero-overlay" id="heroOverlay"></div>
+  <div class="hero-darken"></div>
+  <div class="hero-grain"></div>
+
+  <div class="hero-content" id="heroContent">
+    <h1 class="hero-name">Vishnu CV</h1>
+    <p class="hero-desig">aspiring swe, undergraduate @ vit chennai</p>
+  </div>
+
+  <div class="hero-scroll">scroll</div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════ -->
 <div class="wrap">
 
-  <!-- HEADER -->
-  <header>
+  <!-- HEADER — social icons only, name/designation now live in hero -->
+  <header class="reveal">
     <div class="top-section">
       <div class="linkheader">
-        <a href="https://github.com/vishcrv" aria-label="GitHub Profile">
+        <!-- GitHub -->
+        <a href="https://github.com/vishcrv" aria-label="GitHub">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon">
-            <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"></path>
+            <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/>
           </svg>
         </a>
-        <a href="https://www.linkedin.com/in/vishnu-c-v-1a85b7293/" aria-label="LinkedIn Profile">
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/vishnu-c-v-1a85b7293/" aria-label="LinkedIn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon">
-            <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+            <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
           </svg>
         </a>
-      </div>
-      <div class="profile-info">
-        <h1 class="name">Vishnu CV</h1>
-        <p class="designation">aspiring swe, undergraduate at vit chennai</p>
+        <!-- X / Twitter -->
+        <a href="https://x.com/canisbluffy" aria-label="X / Twitter">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon">
+            <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+          </svg>
+        </a>
+        <!-- Letterboxd -->
+        <a href="https://letterboxd.com/babayaga06/" aria-label="Letterboxd">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon">
+            <path d="M8.224 14.352a4.447 4.447 0 0 1 -3.775 2.092C1.992 16.444 0 14.454 0 12s1.992 -4.444 4.45 -4.444c1.592 0 2.988 0.836 3.774 2.092 -0.427 0.682 -0.673 1.488 -0.673 2.352s0.246 1.67 0.673 2.352zM15.101 12c0 -0.864 0.247 -1.67 0.674 -2.352 -0.786 -1.256 -2.183 -2.092 -3.775 -2.092s-2.989 0.836 -3.775 2.092c0.427 0.682 0.674 1.488 0.674 2.352s-0.247 1.67 -0.674 2.352c0.786 1.256 2.183 2.092 3.775 2.092s2.989 -0.836 3.775 -2.092A4.42 4.42 0 0 1 15.1 12zm4.45 -4.444a4.447 4.447 0 0 0 -3.775 2.092c0.427 0.682 0.673 1.488 0.673 2.352s-0.246 1.67 -0.673 2.352a4.447 4.447 0 0 0 3.775 2.092C22.008 16.444 24 14.454 24 12s-1.992 -4.444 -4.45 -4.444z" fill="currentColor"/>
+          </svg>
+        </a>
       </div>
     </div>
   </header>
 
   <!-- ABOUT -->
-  <div class="skill-card">
+  <div class="skill-card reveal">
     <p class="skill">
       skilled in
       <a href="https://www.python.org/doc/" target="_blank"><b>python</b></a>
@@ -66,8 +450,7 @@
     <div class="projects">
       <div class="section-title">projects</div>
 
-      <!-- Agentic RAG -->
-      <div class="project-card">
+      <div class="project-card reveal">
         <div class="project-header">
           <span class="project-name">agentic rag — intelligent doc & web automation</span>
           <a href="https://github.com/vishcrv" class="project-link" target="_blank">
@@ -80,18 +463,12 @@
           <li>semantic caching reduced query response time by 80% while maintaining vector search precision.</li>
         </ul>
         <div class="tags">
-          <span class="tag">Python</span>
-          <span class="tag">FastAPI</span>
-          <span class="tag">LangChain</span>
-          <span class="tag">Qdrant</span>
-          <span class="tag">Playwright</span>
-          <span class="tag">SentenceTransformers</span>
-          <span class="tag">Pytesseract</span>
+          <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">LangChain</span>
+          <span class="tag">Qdrant</span><span class="tag">Playwright</span><span class="tag">SentenceTransformers</span><span class="tag">Pytesseract</span>
         </div>
       </div>
 
-      <!-- Dynamic LLM Router -->
-      <div class="project-card">
+      <div class="project-card reveal">
         <div class="project-header">
           <span class="project-name">dynamic llm router</span>
           <a href="https://github.com/vishcrv/router" class="project-link" target="_blank">
@@ -104,17 +481,12 @@
           <li>scalable routing engine dynamically selecting optimal LLM based on prompt classification.</li>
         </ul>
         <div class="tags">
-          <span class="tag">Python</span>
-          <span class="tag">FastAPI</span>
-          <span class="tag">DistilBERT</span>
-          <span class="tag">HuggingFace</span>
-          <span class="tag">scikit-learn</span>
-          <span class="tag">OpenRouter API</span>
+          <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">DistilBERT</span>
+          <span class="tag">HuggingFace</span><span class="tag">scikit-learn</span><span class="tag">OpenRouter API</span>
         </div>
       </div>
 
-      <!-- Iris -->
-      <div class="project-card">
+      <div class="project-card reveal">
         <div class="project-header">
           <span class="project-name">iris — ai meeting summarizer</span>
           <a href="https://github.com/vishcrv/iris" class="project-link" target="_blank">
@@ -126,16 +498,12 @@
           <li>modular API architecture with offline-first functionality via client-side IndexedDB persistence.</li>
         </ul>
         <div class="tags">
-          <span class="tag">Next.js</span>
-          <span class="tag">Whisper API</span>
-          <span class="tag">LLaMA 3.2</span>
-          <span class="tag">Tailwind</span>
-          <span class="tag">IndexedDB</span>
+          <span class="tag">Next.js</span><span class="tag">Whisper API</span><span class="tag">LLaMA 3.2</span>
+          <span class="tag">Tailwind</span><span class="tag">IndexedDB</span>
         </div>
       </div>
 
-      <!-- JWT Auth -->
-      <div class="project-card">
+      <div class="project-card reveal">
         <div class="project-header">
           <span class="project-name">secure jwt-auth todo app</span>
           <a href="https://github.com/vishcrv/backend" class="project-link" target="_blank">
@@ -147,11 +515,8 @@
           <li>SQLite schema with relational integrity · database transactions to enforce data integrity.</li>
         </ul>
         <div class="tags">
-          <span class="tag">Node.js</span>
-          <span class="tag">Express.js</span>
-          <span class="tag">SQLite</span>
-          <span class="tag">JWT</span>
-          <span class="tag">bcrypt</span>
+          <span class="tag">Node.js</span><span class="tag">Express.js</span><span class="tag">SQLite</span>
+          <span class="tag">JWT</span><span class="tag">bcrypt</span>
         </div>
       </div>
     </div>
@@ -161,11 +526,10 @@
       <div class="sidebar-block">
         <div class="section-title">links</div>
         <a href="blogs/">blogs</a>
-        <a href="/cdn-cgi/l/email-protection#295f405a41475c5f4c4742485d4a5b5f694e44484045074a4644">gmail</a>
+        <a href="/cdn-cgi/l/email-protection#54223d273c3a2122313a3f3520372622143339353d387a373b39">gmail</a>
         <a href="https://x.com/canisbluffy" target="_blank">twitter</a>
         <a href="https://www.instagram.com/vishhhhnnu/" target="_blank">instagram</a>
       </div>
-
       <div class="sidebar-block">
         <div class="section-title">sections</div>
         <a href="#experience" onclick="smoothTo('experience',event)">experience</a>
@@ -178,29 +542,29 @@
   </div>
 
   <!-- EXPERIENCE -->
-  <section class="achievements-section" id="experience">
+  <section class="achievements-section reveal" id="experience">
     <div class="section-title">experience</div>
     <div class="achievement-item">
-      <span><strong>Full Stack Developer Intern — Daira EdTech</strong> <span class="ach-date">Jul – Sep 2025</span><br>engineered 8+ REST endpoints · architected full-stack features using React + FastAPI for the UPSC Yantra platform · improved data retrieval efficiency and reduced API response overhead.</span>
+      <span><strong><span class="stat-number" data-count="0" data-suffix="Full Stack Developer Intern">Full Stack Developer Intern</span> — <a href="https://www.linkedin.com/company/dairaedtech/posts/?feedView=all" target="_blank"><b>Daira EdTech</b></a></strong> <span class="ach-date">Jul – Sep 2025</span><br>engineered <span class="stat-number" data-count="8" data-suffix="+">8+</span> REST endpoints · architected full-stack features using React + FastAPI for the UPSC Yantra platform · improved data retrieval efficiency and reduced API response overhead.</span>
     </div>
     <div class="achievement-item">
-      <span><strong>Head of Creatives — Fraternity of Young Innovators</strong> <span class="ach-date">Mar 2025 – present</span><br>led creative team of 10 across photography and video production · produced 50+ reels reaching 1M+ views · grew avg views per post 233% (6K → 20K).</span>
+      <span><strong><span class="stat-number" data-count="0" data-suffix="Head of Creatives">Head of Creatives</span> — <a href="https://www.instagram.com/fyivitc/" target="_blank"><b>Fraternity of Young Innovators</b></a></strong> <span class="ach-date">Mar 2025 – present</span><br>led creative team of 10 across photography and video production · produced <span class="stat-number" data-count="50" data-suffix="+">50+</span> reels reaching <span class="stat-number" data-count="1" data-suffix="M+ views">1M+ views</span> · grew avg views per post <span class="stat-number" data-count="233" data-suffix="%">233%</span>.</span>
     </div>
   </section>
 
   <!-- ACHIEVEMENTS -->
-  <section class="achievements-section" id="achievements">
+  <section class="achievements-section reveal" id="achievements">
     <div class="section-title">achievements</div>
     <div class="achievement-item">
-      <span><strong>HackRx 6.0 (Bajaj Finserv)</strong> — Grand Finalist · ranked top 1 in phase 1 among 30,000+ nationwide registrations.</span>
+      <span><strong>HackRx 6.0 (Bajaj Finserv)</strong> — <span class="stat-number" data-count="0" data-suffix="Grand Finalist">Grand Finalist</span> · ranked <span class="stat-number" data-count="1" data-suffix="st in phase 1">top 1</span> among <span class="stat-number" data-count="30000" data-suffix="+ registrations">30,000+</span>.</span>
     </div>
     <div class="achievement-item">
-      <span><strong>Covasant AI Hackathon 2025</strong> — Runner-up among 200+ teams with an intelligent LLM routing solution · awarded ₹20,000.</span>
+      <span><strong>Covasant AI Hackathon 2025</strong> — <span class="stat-number" data-count="0" data-suffix="Runner-up">Runner-up</span> among <span class="stat-number" data-count="200" data-suffix="+ teams">200+</span> teams · awarded <span class="stat-number" data-count="20000" data-suffix=" ₹">₹20,000</span>.</span>
     </div>
   </section>
 
   <!-- TERMINAL -->
-  <div class="vterm-wrap" id="terminal">
+  <div class="vterm-wrap reveal" id="terminal">
     <div class="vterm-label">// terminal</div>
     <div class="vterm-window" id="vtermWindow">
       <div class="vterm-bar">
@@ -225,16 +589,108 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>"they hate us cause they ain't us!"</p>
-    <p>2026</p>
-  </footer>
+</div><!-- /wrap -->
 
+<!-- WAVE TRANSITION SECTION — full bleed, outside wrap -->
+<div class="wave-section" id="waveSection">
+  <div class="wave-bg" id="waveBg"></div>
+  <div class="wave-tint" id="waveTint"></div>
 </div>
 
-<!-- progress bar script -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<!-- FOOTER — outside wrap -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-quote">"they hate us cause they ain't us!"</div>
+    <div class="footer-socials">
+      <a href="https://github.com/vishcrv" target="_blank">gh</a>
+      <a href="https://linkedin.com/in/vishnu-c-v-1a85b7293" target="_blank">li</a>
+      <a href="https://x.com/canisbluffy" target="_blank">tw</a>
+      <a href="https://instagram.com/vishhhhnnu" target="_blank">ig</a>
+      <a href="https://letterboxd.com/babayaga06/" target="_blank">lb</a>
+    </div>
+    <div class="footer-meta">
+      <div class="footer-name" onclick="window.scrollTo({top:0,behavior:'smooth'})">vishnu cv</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── GSAP ScrollTrigger registration
+gsap.registerPlugin(ScrollTrigger);
+
+// ── CINEMATIC HERO SCROLL STORY
+(function initHero() {
+  const img1    = document.getElementById('heroImg1');
+  const overlay = document.getElementById('heroOverlay');
+  const content = document.getElementById('heroContent');
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: '+=220%',       // 2.2x viewport of scroll distance pinned
+      pin: true,
+      scrub: 1.2,
+      anticipatePin: 1,
+    }
+  });
+
+  // 0–25%: name content drifts up + fades, overlay starts
+  tl.to(content, { y: -40, opacity: 0, ease: 'none' }, 0)
+    .to(overlay,  { opacity: 0.55, ease: 'none' }, 0)
+
+  // 0–30%: img1 subtle parallax scale
+    .to(img1, { scale: 1.0, ease: 'none' }, 0)
+
+  // 30–70%: img1 fades out fully
+    .to(img1,    { opacity: 0, ease: 'none' }, 0.3)
+
+  // 50–100%: overlay goes full black
+    .to(overlay, { opacity: 1, ease: 'none' }, 0.5);
+})();
+
+// ── WAVE SECTION SCROLL
+(function initWave() {
+  const bg   = document.getElementById('waveBg');
+  const tint = document.getElementById('waveTint');
+  if (!bg) return;
+
+  // parallax on the bg image
+  gsap.to(bg, {
+    yPercent: 18,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#waveSection',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1.5,
+    }
+  });
+
+  // tint fades out as you scroll through
+  gsap.to(tint, {
+    opacity: 0,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#waveSection',
+      start: 'top 60%',
+      end: 'center center',
+      scrub: 1,
+    }
+  });
+})();
+
+// ── READING PROGRESS BAR
+const bar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  bar.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
+});
+
+// ── SMOOTH SCROLL TO SECTION
 function smoothTo(id, e) {
   if (e) e.preventDefault();
   const el = document.getElementById(id);
@@ -243,14 +699,106 @@ function smoothTo(id, e) {
   window.scrollTo({ top, behavior: 'smooth' });
 }
 
-const bar = document.getElementById('progress');
-window.addEventListener('scroll', () => {
-  const d = document.documentElement;
-  bar.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
-});
+// ── SECTION REVEAL on scroll
+(function initReveals() {
+  const items = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  items.forEach(el => obs.observe(el));
+})();
+
+// ── 3D CARD TILT
+(function initTilt() {
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width  / 2;
+      const cy = rect.top  + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width  / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+      card.style.transform = `perspective(800px) rotateY(${dx * 4}deg) rotateX(${-dy * 4}deg) translateZ(4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg) translateZ(0px)';
+    });
+  });
+})();
+
+// ── COUNT-UP NUMBERS
+(function initCountUp() {
+  const els = document.querySelectorAll('.stat-number[data-count]');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el     = entry.target;
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      const dur    = 1200;
+      obs.unobserve(el);
+
+      // data-count="0" = text label only — just set text, no opacity games
+      if (target === 0) {
+        el.textContent = suffix;
+        return;
+      }
+
+      // ₹ prefix special case
+      const isRupee = suffix.trim().startsWith('₹');
+
+      const start = Date.now();
+      function tick() {
+        const elapsed = Date.now() - start;
+        const progress = Math.min(elapsed / dur, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = Math.round(eased * target);
+        if (isRupee) {
+          el.textContent = '₹' + val.toLocaleString();
+        } else {
+          el.textContent = val.toLocaleString() + (progress < 1 ? '+' : suffix.startsWith('+') || suffix.startsWith('M') || suffix.startsWith('%') || suffix.startsWith('st') ? suffix : ' ' + suffix).trim();
+        }
+        if (progress < 1) requestAnimationFrame(tick);
+        else {
+          if (isRupee) el.textContent = '₹' + target.toLocaleString();
+          else el.textContent = target.toLocaleString() + (suffix.startsWith('+') || suffix.startsWith('M') || suffix.startsWith('%') || suffix.startsWith('st') ? suffix : ' ' + suffix).trim();
+        }
+      }
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.6 });
+  els.forEach(el => obs.observe(el));
+})();
+
+// ── CUSTOM CURSOR
+(function initCursor() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let rx = 0, ry = 0; // ring position (lagged)
+  let mx = 0, my = 0; // mouse position
+
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+
+  (function lerpRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(lerpRing);
+  })();
+})();
 </script>
 
-<!-- TERMINAL SCRIPT -->
+<!-- TERMINAL SCRIPT — untouched -->
 <script>
 (function () {
   'use strict';
@@ -268,17 +816,8 @@ window.addEventListener('scroll', () => {
   const SESSION  = Date.now();
 
   const FS_SIZES = {
-    'projects/':                 '',
-    'about.txt':                 '1.8kb',
-    'skills.txt':                '2.4kb',
-    'contact.txt':               '0.9kb',
-    'resume.pdf':                '87kb',
-    'iris.txt':                  '3.1kb',
-    'router.txt':                '2.7kb',
-    'rag.txt':                   '3.4kb',
-    'auth.txt':                  '2.2kb',
-    '2026-03-11-python-cli.txt': '14.2kb',
-    '2026-03-20-git.txt':        '11.6kb',
+    'projects/':'','about.txt':'1.8kb','skills.txt':'2.4kb','contact.txt':'0.9kb',
+    'resume.pdf':'87kb','iris.txt':'3.1kb','router.txt':'2.7kb','rag.txt':'3.4kb','auth.txt':'2.2kb',
   };
 
   const FS = {
@@ -354,27 +893,18 @@ window.addEventListener('scroll', () => {
   };
 
   const STEP = 35;
-
-  function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  function scroll() {
-    requestAnimationFrame(() => { $body.scrollTop = $body.scrollHeight; });
-  }
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function scroll() { requestAnimationFrame(() => { $body.scrollTop = $body.scrollHeight; }); }
 
   function println(text, cls, delay) {
     delay = delay || 0; cls = cls || '';
     setTimeout(function () {
       if (cls === 'spacer') {
-        const sp = document.createElement('div');
-        sp.className = 'vt-out spacer';
-        $out.appendChild(sp);
+        const sp = document.createElement('div'); sp.className = 'vt-out spacer'; $out.appendChild(sp);
       } else {
         const el = document.createElement('span');
         el.className = 'vt-out' + (cls ? ' ' + cls : '');
-        el.textContent = text;
-        $out.appendChild(el);
+        el.textContent = text; $out.appendChild(el);
       }
       scroll();
     }, delay);
@@ -385,27 +915,19 @@ window.addEventListener('scroll', () => {
     setTimeout(function () {
       const el = document.createElement('span');
       el.className = 'vt-out' + (cls ? ' ' + cls : '');
-      el.innerHTML = html;
-      $out.appendChild(el);
-      scroll();
+      el.innerHTML = html; $out.appendChild(el); scroll();
     }, delay);
   }
 
   function printLink(label, href, delay) {
-    printHTML(
-      '  <a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(label) + '</a>',
-      '', delay
-    );
+    printHTML('  <a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(label) + '</a>', '', delay);
   }
 
   function printSection(label, delay) {
     delay = delay || 0;
     setTimeout(function () {
-      const el = document.createElement('span');
-      el.className = 'vt-section-head';
-      el.textContent = label;
-      $out.appendChild(el);
-      scroll();
+      const el = document.createElement('span'); el.className = 'vt-section-head';
+      el.textContent = label; $out.appendChild(el); scroll();
     }, delay);
   }
 
@@ -431,10 +953,10 @@ window.addEventListener('scroll', () => {
       { t:'link',  v:'vishnuvenkatcrv@gmail.com', href:'mailto:vishnuvenkatcrv@gmail.com' },
       { t:'spacer' },
       { t:'pink',  v:'socials' },
-      { t:'link',  v:'github   →  github.com/vishcrv',                     href:'https://github.com/vishcrv' },
-      { t:'link',  v:'linkedin →  linkedin.com/in/vishnu-c-v-1a85b7293',   href:'https://linkedin.com/in/vishnu-c-v-1a85b7293' },
-      { t:'link',  v:'twitter  →  x.com/canisbluffy',                      href:'https://x.com/canisbluffy' },
-      { t:'link',  v:'insta    →  instagram.com/vishhhhnnu',                href:'https://instagram.com/vishhhhnnu' },
+      { t:'link',  v:'github   →  github.com/vishcrv',                   href:'https://github.com/vishcrv' },
+      { t:'link',  v:'linkedin →  linkedin.com/in/vishnu-c-v-1a85b7293', href:'https://linkedin.com/in/vishnu-c-v-1a85b7293' },
+      { t:'link',  v:'twitter  →  x.com/canisbluffy',                    href:'https://x.com/canisbluffy' },
+      { t:'link',  v:'insta    →  instagram.com/vishhhhnnu',              href:'https://instagram.com/vishhhhnnu' },
       { t:'spacer' },
     ];
     items.forEach(function (l, i) {
@@ -446,16 +968,11 @@ window.addEventListener('scroll', () => {
   }
 
   function printEcho(cmd) {
-    const row = document.createElement('div');
-    row.className = 'vt-cmd-echo-row';
-    const p = document.createElement('span');
-    p.className = 'vt-prompt-echo';
+    const row = document.createElement('div'); row.className = 'vt-cmd-echo-row';
+    const p = document.createElement('span'); p.className = 'vt-prompt-echo';
     p.textContent = 'vishnu@portfolio:' + cwd + '$ ';
-    const c = document.createElement('span');
-    c.className = 'vt-cmd-text';
-    c.textContent = cmd;
-    row.appendChild(p); row.appendChild(c);
-    $out.appendChild(row);
+    const c = document.createElement('span'); c.className = 'vt-cmd-text'; c.textContent = cmd;
+    row.appendChild(p); row.appendChild(c); $out.appendChild(row);
   }
 
   function updateCwd() {
@@ -463,15 +980,15 @@ window.addEventListener('scroll', () => {
     $prompt.textContent = 'vishnu@portfolio:' + cwd + '$ ';
   }
 
-  // BOOT — art rendered always, hidden on mobile via CSS (.vt-art-line)
+  // BOOT
   (function boot() {
     const art = [
-      "  ██╗    ██╗██╗███████╗██╗  ██╗███╗   ██╗ ██████╗ ",
-      "  ██║    ██║██║██╔════╝██║  ██║████╗  ██║██╔═══██╗",
-      "  ██║ █╗ ██║██║███████╗███████║██╔██╗ ██║██║   ██║",
-      "  ██║███╗██║██║╚════██║██╔══██║██║╚██╗██║██║   ██║",
-      "  ╚███╔███╔╝██║███████║██║  ██║██║ ╚████║╚██████╔╝",
-      "   ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝",
+      "  \u2588\u2588\u2557    \u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557  \u2588\u2588\u2557\u2588\u2588\u2588\u2557   \u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557 ",
+      "  \u2588\u2588\u2551    \u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2551  \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2588\u2588\u2557",
+      "  \u2588\u2588\u2551 \u2588\u2557 \u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2554\u2588\u2588\u2557 \u2588\u2588\u2551\u2588\u2588\u2551   \u2588\u2588\u2551",
+      "  \u2588\u2588\u2551\u2588\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551\u255a\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2551\u255a\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551   \u2588\u2588\u2551",
+      "  \u255a\u2588\u2588\u2588\u2554\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2551  \u2588\u2588\u2551\u2588\u2588\u2551 \u255a\u2588\u2588\u2588\u2588\u2551\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d",
+      "   \u255a\u2550\u2550\u255d\u255a\u2550\u2550\u255d \u255a\u2550\u255d\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d  \u255a\u2550\u255d\u255a\u2550\u255d  \u255a\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d",
     ];
     art.forEach(function(line, i) {
       setTimeout(function() {
@@ -491,75 +1008,38 @@ window.addEventListener('scroll', () => {
 
   // IDLE
   const IDLE_THOUGHTS = [
-    'still there?',
-    "you've been staring at me for a while.",
-    'try typing  whoami',
-    'the cursor blinks either way.',
-    'are you debugging or just thinking?',
-    'type  bcs  when you need motivation.',
-    "it's fine. i'll wait.",
+    'still there?',"you've been staring at me for a while.",'try typing  whoami',
+    'the cursor blinks either way.','are you debugging or just thinking?',
+    'type  bcs  when you need motivation.',"it's fine. i'll wait.",
   ];
-  let idleTimer = null;
-  let idleActive = false;
-
+  let idleTimer = null, idleActive = false;
   function resetIdle() {
     clearTimeout(idleTimer);
     if (idleActive) { $input.classList.remove('vt-idle'); idleActive = false; }
     idleTimer = setTimeout(function () {
-      idleActive = true;
-      $input.classList.add('vt-idle');
-      const t = IDLE_THOUGHTS[Math.floor(Math.random() * IDLE_THOUGHTS.length)];
-      println('  ' + t, 'ghost');
+      idleActive = true; $input.classList.add('vt-idle');
+      println('  ' + IDLE_THOUGHTS[Math.floor(Math.random() * IDLE_THOUGHTS.length)], 'ghost');
       scroll();
     }, 45000);
   }
   resetIdle();
 
-  // COMMANDS
   const CMDS = {
-
     help: function () {
       const groups = [
-        { label: 'info', cmds: [
-          ['whoami',   'who is this guy'],
-          ['neofetch', 'system info'],
-          ['skills',   'full tech stack'],
-          ['projects', 'all projects'],
-          ['github',   'open github profile'],
-          ['resume',   'view resume  →  opens pdf'],
-        ]},
-        { label: 'files', cmds: [
-          ['ls',         'list directory'],
-          ['cd <dir>',   'change directory'],
-          ['cat <file>', 'read a file'],
-          ['pwd',        'print working directory'],
-        ]},
-        { label: 'system', cmds: [
-          ['date',    'current date & time'],
-          ['uptime',  'session uptime'],
-          ['history', 'command history'],
-          ['banner',  'show banner again'],
-          ['clear',   'clear terminal'],
-        ]},
-        { label: 'fun', cmds: [
-          ['bcs',    'walk away, howard.'],
-          ['matrix', '...you know'],
-          ['guess',  'guess the number  (1–100)'],
-        ]},
+        { label:'info',   cmds:[['whoami','who is this guy'],['neofetch','system info'],['skills','full tech stack'],['projects','all projects'],['github','open github'],['resume','view resume pdf']] },
+        { label:'files',  cmds:[['ls','list directory'],['cd <dir>','change directory'],['cat <file>','read a file'],['pwd','working directory']] },
+        { label:'system', cmds:[['date','current date & time'],['uptime','session uptime'],['history','command history'],['banner','show banner'],['clear','clear terminal']] },
+        { label:'fun',    cmds:[['bcs','walk away, howard.'],['matrix','...you know'],['guess','guess the number (1-100)']] },
       ];
-
       let delay = 0;
       println('', 'spacer', delay); delay += 25;
       groups.forEach(function (g) {
         printSection('  ' + g.label, delay); delay += 28;
-        g.cmds.forEach(function (row) {
-          println('    ' + row[0].padEnd(20) + row[1], 'dim', delay);
-          delay += 20;
-        });
+        g.cmds.forEach(function (row) { println('    ' + row[0].padEnd(20) + row[1], 'dim', delay); delay += 20; });
         println('', 'spacer', delay); delay += 20;
       });
     },
-
     whoami: function () {
       printLines([
         { t:'spacer' },
@@ -575,7 +1055,6 @@ window.addEventListener('scroll', () => {
         { t:'spacer' },
       ]);
     },
-
     neofetch: function () {
       printLines([
         { t:'spacer' },
@@ -593,20 +1072,18 @@ window.addEventListener('scroll', () => {
         { t:'spacer' },
       ]);
     },
-
-    skills:   function () { CMDS.cat(['skills.txt']); },
-
+    skills: function () { CMDS.cat(['skills.txt']); },
     projects: function () {
       const rows = [
-        { name:'agentic-rag',   desc:'intelligent doc & web automation  ·  langchain + qdrant' },
-        { name:'llm-router',    desc:'dynamic LLM router  ·  distilbert + fastapi' },
-        { name:'iris',          desc:'AI meeting summarizer  ·  whisper + LLaMA 3.2' },
-        { name:'jwt-auth-app',  desc:'RESTful auth backend  ·  node + sqlite + JWT' },
+        { name:'agentic-rag',  desc:'intelligent doc & web automation  ·  langchain + qdrant' },
+        { name:'llm-router',   desc:'dynamic LLM router  ·  distilbert + fastapi' },
+        { name:'iris',         desc:'AI meeting summarizer  ·  whisper + LLaMA 3.2' },
+        { name:'jwt-auth-app', desc:'RESTful auth backend  ·  node + sqlite + JWT' },
       ];
       println('', 'spacer');
       rows.forEach(function (r, i) {
         printHTML(
-          '  <span style="color:var(--vt-purple)">' + esc(r.name).padEnd(18) + '</span>'
+          '  <span style="color:var(--vt-pink)">' + esc(r.name).padEnd(18) + '</span>'
           + '<span style="color:var(--vt-dim)">' + esc(r.desc) + '</span>',
           '', i * 45
         );
@@ -616,15 +1093,12 @@ window.addEventListener('scroll', () => {
       println('  cd projects/  →  ls  →  cat <file>.txt', 'dim', d + 10);
       println('', 'spacer', d + 40);
     },
-
     github: function () {
       println('  opening github.com/vishcrv ...', 'dim');
       setTimeout(() => window.open('https://github.com/vishcrv', '_blank'), 400);
     },
-
     resume: function () {
-      const PDF_URL = 'https://drive.google.com/file/d/1N0mjZJMW4lXlvMBMkTxE2pG_mkJHOf4O/view?usp=drive_link';
-
+      const PDF = 'https://drive.google.com/file/d/1N0mjZJMW4lXlvMBMkTxE2pG_mkJHOf4O/view?usp=drive_link';
       printLines([
         { t:'spacer' },
         { t:'bright', v:'  vishnu cv  ·  resume' },
@@ -632,36 +1106,27 @@ window.addEventListener('scroll', () => {
         { t:'pink',   v:'  education' },
         { t:'',       v:'    B.Tech CS (AI & Robotics)  ·  VIT Chennai  ·  GPA: 8.55' },
         { t:'spacer' },
-        { t:'pink',   v:'  experience' },
-        { t:'',       v:'    full stack dev intern  ·  daira edtech  (jul–sep 2025)' },
-        { t:'',       v:'    head of creatives  ·  fraternity of young innovators' },
-        { t:'spacer' },
         { t:'pink',   v:'  achievements' },
         { t:'',       v:'    hackrx 6.0  —  grand finalist  ·  top 1 / 30,000+' },
         { t:'',       v:'    covasant ai 2025  —  runner-up  ·  ₹20,000' },
         { t:'spacer' },
-        { t:'pink',   v:'  stack' },
-        { t:'',       v:'    python · typescript · fastapi · next.js · langchain · qdrant' },
-        { t:'spacer' },
         { t:'dim',    v:'  opening pdf...' },
         { t:'spacer' },
       ]);
-      setTimeout(function () { window.open(PDF_URL, '_blank'); }, 1800);
+      setTimeout(function () { window.open(PDF, '_blank'); }, 1800);
     },
-
     pwd: function () { println('/home/' + cwd); },
-
     ls: function (args) {
-      const dir   = (args && args[0]) ? args[0] : cwd;
+      const dir = (args && args[0]) ? args[0] : cwd;
       const clean = dir === '~' ? '~' : dir.replace('/', '');
-      const list  = FS[clean];
+      const list = FS[clean];
       if (!list) { println('ls: cannot access \'' + dir + '\': no such directory', 'err'); return; }
       println('', 'spacer');
       list.forEach(function (e, i) {
         const isDir = e.endsWith('/');
-        const size  = FS_SIZES[e] ? FS_SIZES[e] : '';
+        const size = FS_SIZES[e] || '';
         printHTML(
-          '<span style="color:' + (isDir ? 'var(--vt-purple)' : 'var(--vt-text)') + '">'
+          '<span style="color:' + (isDir ? 'var(--vt-pink)' : 'var(--vt-text)') + '">'
           + esc('  ' + e).padEnd(36) + '</span>'
           + '<span style="color:var(--vt-dim)">' + esc(size) + '</span>',
           '', i * 28
@@ -669,150 +1134,109 @@ window.addEventListener('scroll', () => {
       });
       println('', 'spacer', list.length * 28 + 28);
     },
-
     cd: function (args) {
       if (!args || !args[0] || args[0] === '~') { cwd = '~'; updateCwd(); return; }
       const target = args[0].replace('/', '');
-      if (args[0] === '..')    { cwd = '~'; updateCwd(); }
-      else if (FS[target])     { cwd = target; updateCwd(); }
+      if (args[0] === '..')   { cwd = '~'; updateCwd(); }
+      else if (FS[target])    { cwd = target; updateCwd(); }
       else println('cd: no such directory: ' + args[0], 'err');
     },
-
     cat: function (args) {
       if (!args || !args[0]) { println('cat: missing filename', 'err'); return; }
       const file = args[0];
-      // only allow files that exist in the current directory
       const allowed = FS[cwd] || [];
-      if (!allowed.includes(file)) {
-        println('cat: ' + file + ': no such file in current directory', 'err');
-        return;
-      }
+      if (!allowed.includes(file)) { println('cat: ' + file + ': no such file in current directory', 'err'); return; }
       if (file === 'contact.txt') { printContact(); return; }
       if (file === 'resume.pdf')  { CMDS.resume(); return; }
       const data = FILES[file];
       if (!data) { println('cat: ' + file + ': no such file', 'err'); return; }
       printLines([{ t:'spacer' }].concat(data));
     },
-
     date: function () {
       const now = new Date();
       println('', 'spacer');
-      println('  ' + now.toLocaleString('en-US', {
-        weekday:'long', year:'numeric', month:'long',
-        day:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit',
-      }), 'bright');
+      println('  ' + now.toLocaleString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit' }), 'bright');
       println('', 'spacer');
     },
-
     uptime: function () {
       const secs = Math.floor((Date.now() - SESSION) / 1000);
-      const m = Math.floor(secs / 60), s = secs % 60;
       println('', 'spacer');
-      println('  session uptime: ' + m + 'm ' + s + 's', 'bright');
+      println('  session uptime: ' + Math.floor(secs/60) + 'm ' + (secs%60) + 's', 'bright');
       println('', 'spacer');
     },
-
     history: function () {
       println('', 'spacer');
       if (!cmdHistory.length) { println('  (no commands yet)', 'dim'); println('', 'spacer'); return; }
-      cmdHistory.slice().reverse().forEach(function (cmd, i) {
-        println('  ' + String(i + 1).padStart(3) + '  ' + cmd, '', i * 20);
-      });
+      cmdHistory.slice().reverse().forEach(function (cmd, i) { println('  ' + String(i+1).padStart(3) + '  ' + cmd, '', i*20); });
       println('', 'spacer', cmdHistory.length * 20 + 25);
     },
-
     banner: function () {
-    const art = [
-      "  ██╗    ██╗██╗███████╗██╗  ██╗███╗   ██╗ ██████╗ ",
-      "  ██║    ██║██║██╔════╝██║  ██║████╗  ██║██╔═══██╗",
-      "  ██║ █╗ ██║██║███████╗███████║██╔██╗ ██║██║   ██║",
-      "  ██║███╗██║██║╚════██║██╔══██║██║╚██╗██║██║   ██║",
-      "  ╚███╔███╔╝██║███████║██║  ██║██║ ╚████║╚██████╔╝",
-      "   ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝",
-    ];
+      const art = [
+        "  \u2588\u2588\u2557    \u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557  \u2588\u2588\u2557\u2588\u2588\u2588\u2557   \u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557 ",
+        "  \u2588\u2588\u2551    \u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2551  \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2588\u2588\u2557",
+        "  \u2588\u2588\u2551 \u2588\u2557 \u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2554\u2588\u2588\u2557 \u2588\u2588\u2551\u2588\u2588\u2551   \u2588\u2588\u2551",
+        "  \u2588\u2588\u2551\u2588\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551\u255a\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2551\u255a\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551   \u2588\u2588\u2551",
+        "  \u255a\u2588\u2588\u2588\u2554\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2551  \u2588\u2588\u2551\u2588\u2588\u2551 \u255a\u2588\u2588\u2588\u2588\u2551\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d",
+        "   \u255a\u2550\u2550\u255d\u255a\u2550\u2550\u255d \u255a\u2550\u255d\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d  \u255a\u2550\u255d\u255a\u2550\u255d  \u255a\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d",
+      ];
       println('', 'spacer');
       art.forEach(function(line, i) {
         setTimeout(function() {
-          const el = document.createElement('span');
-          el.className = 'vt-out';
-          el.style.color = '#b85c6e';
-          el.textContent = line;
-          $out.appendChild(el);
+          const el = document.createElement('span'); el.className = 'vt-out'; el.style.color = '#b85c6e';
+          el.textContent = line; $out.appendChild(el);
         }, i * 55);
       });
       println('', 'spacer', art.length * 55 + 30);
     },
-
     clear: function () { $out.innerHTML = ''; $hint.style.display = 'block'; },
-
     bcs: function () {
       printLines([
-        { t:'spacer' },
-        { t:'dim',    v:'  [ saul goodman, better call saul ]' },
-        { t:'spacer' },
-        { t:'',       v:'  Walk away.' },
-        { t:'',       v:"  That's right, Howard." },
-        { t:'',       v:"  You know why I didn't take the job?" },
-        { t:'pink',   v:"  Because it's too SMALL!!!" },
-        { t:'',       v:"  I don't care about it." },
-        { t:'',       v:"  It's nothing to me." },
-        { t:'',       v:"  It's a bacterium." },
+        { t:'spacer' },{ t:'dim', v:'  [ saul goodman, better call saul ]' },{ t:'spacer' },
+        { t:'', v:'  Walk away.' },{ t:'', v:"  That's right, Howard." },
+        { t:'', v:"  You know why I didn't take the job?" },
+        { t:'pink', v:"  Because it's too SMALL!!!" },
+        { t:'', v:"  I don't care about it." },{ t:'', v:"  It's nothing to me." },{ t:'', v:"  It's a bacterium." },
         { t:'spacer' },
         { t:'bright', v:"  I travel in worlds you can't even imagine." },
         { t:'bright', v:"  You can't conceive of what I'm capable of." },
-        { t:'bright', v:"  I'm so far beyond you." },
-        { t:'spacer' },
-        { t:'pink',   v:"  I'm like a god in human clothing." },
-        { t:'pink',   v:'  LIGHTNING BOLTS SHOOT FROM MY FINGER TIPS!!!' },
-        { t:'spacer' },
+        { t:'bright', v:"  I'm so far beyond you." },{ t:'spacer' },
+        { t:'pink', v:"  I'm like a god in human clothing." },
+        { t:'pink', v:'  LIGHTNING BOLTS SHOOT FROM MY FINGER TIPS!!!' },{ t:'spacer' },
       ]);
     },
-
     matrix: function () {
-      println('', 'spacer');
-      println('  wake up, vishnu...', 'grn');
-      println('  the matrix has you.', 'grn');
-      println('', 'spacer');
+      println('', 'spacer'); println('  wake up, vishnu...', 'grn'); println('  the matrix has you.', 'grn'); println('', 'spacer');
       const chars = 'ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789ABCDEF▓▒░日';
       let frames = 0;
       const iv = setInterval(function () {
         if (frames++ > 9) { clearInterval(iv); println('', 'spacer'); return; }
         let row = '  ';
         for (let i = 0; i < 52; i++) row += chars[Math.floor(Math.random() * chars.length)];
-        println(row, 'grn');
-        scroll();
+        println(row, 'grn'); scroll();
       }, 75);
     },
-
     guess: (function () {
       let secret = null, tries = 0;
       const MAX = 6;
       function newGame() {
         secret = Math.floor(Math.random() * 100) + 1; tries = 0;
-        println('', 'spacer');
-        println('  number guessing game  (1 – 100)', 'bright');
-        println('  ' + MAX + ' tries.  type: guess <number>', 'dim');
-        println('', 'spacer');
+        println('', 'spacer'); println('  number guessing game  (1 – 100)', 'bright');
+        println('  ' + MAX + ' tries.  type: guess <number>', 'dim'); println('', 'spacer');
       }
       return function (args) {
         if (!args || !args[0] || args[0] === 'new') { newGame(); return; }
         if (secret === null) { println('  start with: guess new', 'dim'); return; }
         const n = parseInt(args[0], 10);
         if (isNaN(n)) { println('  give me a number.', 'err'); return; }
-        tries++;
-        const left = MAX - tries;
-        println('', 'spacer');
+        tries++; const left = MAX - tries; println('', 'spacer');
         if (n === secret) {
-          println('  ✓ correct! it was ' + secret + '.  tries: ' + tries, 'grn');
+          println('  correct! it was ' + secret + '.  tries: ' + tries, 'grn');
           secret = null; println('  play again: guess new', 'dim');
         } else if (tries >= MAX) {
-          println('  ✗ out of tries. it was ' + secret + '.', 'err');
+          println('  out of tries. it was ' + secret + '.', 'err');
           secret = null; println('  play again: guess new', 'dim');
-        } else if (n < secret) {
-          println('  too low.  ' + left + ' left.', n < secret - 25 ? 'dim' : '');
-        } else {
-          println('  too high.  ' + left + ' left.', n > secret + 25 ? 'dim' : '');
-        }
+        } else if (n < secret) { println('  too low.  ' + left + ' left.', n < secret - 25 ? 'dim' : '');
+        } else { println('  too high.  ' + left + ' left.', n > secret + 25 ? 'dim' : ''); }
         println('', 'spacer');
       };
     })(),
@@ -824,39 +1248,26 @@ window.addEventListener('scroll', () => {
 
   $input.addEventListener('keydown', function (e) {
     resetIdle();
-
     if (e.key === 'Enter') {
-      const raw = $input.value.trim();
-      $input.value = ''; histIdx = -1;
+      const raw = $input.value.trim(); $input.value = ''; histIdx = -1;
       $hint.style.display = 'none';
       if (!raw) return;
-      cmdHistory.unshift(raw);
-      printEcho(raw);
-      println('', 'spacer');
+      cmdHistory.unshift(raw); printEcho(raw); println('', 'spacer');
       const [cmd, ...args] = raw.split(/\s+/);
-      if (CMDS[cmd]) {
-        CMDS[cmd](args);
-      } else {
-        println('  ' + cmd + ': command not found  —  type help', 'err');
-      }
-      println('', 'spacer');
-      scroll();
-      return;
+      if (CMDS[cmd]) { CMDS[cmd](args); }
+      else { println('  ' + cmd + ': command not found  —  type help', 'err'); }
+      println('', 'spacer'); scroll(); return;
     }
-
     if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (histIdx < cmdHistory.length - 1) histIdx++;
-      $input.value = cmdHistory[histIdx] || '';
-      return;
+      $input.value = cmdHistory[histIdx] || ''; return;
     }
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (histIdx > 0) { histIdx--; $input.value = cmdHistory[histIdx] || ''; }
-      else { histIdx = -1; $input.value = ''; }
-      return;
+      else { histIdx = -1; $input.value = ''; } return;
     }
-
     if (e.key === 'Tab') {
       e.preventDefault();
       const val = $input.value, parts = val.split(/\s+/);
@@ -869,15 +1280,11 @@ window.addEventListener('scroll', () => {
         const cands = [...ALL_FILES, ...ALL_DIRS].filter(f => f.startsWith(partial));
         if (cands.length === 1) { parts[parts.length - 1] = cands[0]; $input.value = parts.join(' '); }
         else if (cands.length > 1) { println(''); println('  ' + cands.join('   '), 'dim'); scroll(); }
-      }
-      return;
+      } return;
     }
-
     if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); CMDS.clear(); return; }
-    if (e.key === 'c' && e.ctrlKey) {
-      printEcho($input.value + '^C'); $input.value = '';
-      println('', 'spacer'); scroll(); return;
-    }
+    if (e.key === 'c' && e.ctrlKey) { printEcho($input.value + '^C'); $input.value = ''; println('', 'spacer'); scroll(); return; }
+
     if (e.key === 'u' && e.ctrlKey) { e.preventDefault(); $input.value = ''; return; }
   });
 

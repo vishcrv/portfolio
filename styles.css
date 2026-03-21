@@ -11,6 +11,7 @@
 }
 
 html { scroll-behavior: smooth; }
+html, body { overflow-x: hidden; }
 
 body {
   background: var(--bg);
@@ -80,26 +81,28 @@ header {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: center;
 }
 
 .linkheader {
   display: flex;
-  gap: 14px;
+  gap: 22px;
   align-items: center;
+  justify-content: center;
 }
 
 .linkheader a {
   color: var(--dim);
-  transition: opacity 0.18s;
+  transition: color 0.18s;
   display: flex;
   align-items: center;
 }
 
-.linkheader a:hover { opacity: 0.5; }
+.linkheader a:hover { color: var(--text); }
 
 .icon {
-  width: 18px;
-  height: 18px;
+  width: 26px;
+  height: 26px;
   fill: currentColor;
 }
 
@@ -152,7 +155,7 @@ header {
 
 .ach-date {
   color: var(--dim);
-  font-size: 11px;
+  font-size: 12px;
   margin-left: 8px;
 }
 
@@ -166,7 +169,7 @@ header {
 
 /* ── SECTION TITLE ── */
 .section-title {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   color: var(--dim);
   letter-spacing: 0.14em;
@@ -194,7 +197,7 @@ header {
 }
 
 .project-name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--text);
   letter-spacing: 0.01em;
@@ -222,7 +225,7 @@ header {
 }
 
 .project-bullets li {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--dim);
   padding-left: 14px;
   position: relative;
@@ -289,10 +292,10 @@ header {
   display: flex;
   gap: 14px;
   align-items: flex-start;
-  margin-bottom: 14px;
-  font-size: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
   color: var(--dim);
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 .achievement-item::before {
@@ -307,6 +310,14 @@ header {
   color: var(--text);
   font-weight: 400;
 }
+
+.achievement-item a {
+  color: #999;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.achievement-item a:hover { color: var(--text); }
 
 /* ── TERMINAL (vterm) ── */
 .vterm-wrap {
@@ -479,7 +490,7 @@ footer {
   .vt-art-line { display: none !important; }
 
   /* achievements */
-  .achievement-item { font-size: 12px; }
+  .achievement-item { font-size: 13px; }
 }
 
 /* scroll offset for sidebar nav links */
