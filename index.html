@@ -58,38 +58,49 @@
 
 <style>
 /* ── LOADER ── */
+/* lock scroll while loading */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+}
+
 #loader {
   position: fixed;
-  inset: 0;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 999999;
   pointer-events: all;
   background: #080808;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.7s ease;
+  transition: opacity 0.75s ease;
 }
 
-#loader.fade-out { opacity: 0; }
+#loader.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
 
 .loader-bar-wrap {
-  width: 200px;
+  width: 220px;
   height: 3px;
-  background: #1a1a1a;
+  background: #1c1c1c;
   border-radius: 999px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.04);
 }
 
 .loader-bar {
   height: 100%;
   width: 0%;
   border-radius: 999px;
-  background: #fff;
+  background: #ffffff;
   box-shadow:
-    0 0 6px rgba(255,255,255,0.8),
-    0 0 18px rgba(255,255,255,0.35);
-  transition: width 0.22s ease;
+    0 0 8px rgba(255,255,255,0.9),
+    0 0 24px rgba(255,255,255,0.45),
+    0 0 48px rgba(255,255,255,0.15);
+  transition: width 0.2s ease;
 }
 
 /* ── CUSTOM CURSOR ── */
@@ -666,14 +677,17 @@ gsap.registerPlugin(ScrollTrigger);
   const loader = document.getElementById('loader');
   const bar    = document.getElementById('loaderBar');
 
+  // lock scroll + mark loading
+  document.documentElement.classList.add('is-loading');
+
   let progress = 0;
   let dismissed = false;
 
-  // smooth fake progress — starts slow, accelerates, holds at 88 waiting for real load
+  // smooth fake progress — slow start, mid burst, holds at 88 for real load
   const fakeInterval = setInterval(() => {
     if (progress < 88) {
-      const step = progress < 40 ? 1.5 : progress < 70 ? 2.5 : 1;
-      progress = Math.min(progress + step + Math.random() * 1.5, 88);
+      const step = progress < 30 ? 0.8 : progress < 60 ? 2 : 0.6;
+      progress = Math.min(progress + step + Math.random() * 1.2, 88);
       bar.style.width = progress + '%';
     }
   }, 80);
@@ -682,25 +696,37 @@ gsap.registerPlugin(ScrollTrigger);
     if (dismissed) return;
     dismissed = true;
     clearInterval(fakeInterval);
-    // snap to 100%, brief pause, then fade
-    bar.style.transition = 'width 0.3s ease';
+
+    // complete bar
+    bar.style.transition = 'width 0.4s ease';
     bar.style.width = '100%';
 
     setTimeout(() => {
+      // restore scroll
+      document.documentElement.classList.remove('is-loading');
+      // fade out loader
       loader.classList.add('fade-out');
-      setTimeout(() => loader.remove(), 750);
-    }, 380);
+      setTimeout(() => loader.remove(), 800);
+    }, 420);
   }
 
-  // Trigger on full page load
+  // Wait for full page load including all images
+  function tryDismiss() {
+    // check if hero image is loaded too
+    const heroImg = document.getElementById('heroImg1');
+    const heroStyle = heroImg ? window.getComputedStyle(heroImg).backgroundImage : '';
+    // just use window.load — most reliable
+    dismiss();
+  }
+
   if (document.readyState === 'complete') {
-    setTimeout(dismiss, 400);
+    setTimeout(tryDismiss, 200);
   } else {
-    window.addEventListener('load', () => setTimeout(dismiss, 300));
+    window.addEventListener('load', () => setTimeout(tryDismiss, 200));
   }
 
-  // Hard fallback — never wait more than 8s
-  setTimeout(dismiss, 8000);
+  // Hard fallback — max 10s
+  setTimeout(dismiss, 10000);
 })();
 
 // ── CINEMATIC HERO SCROLL STORY
