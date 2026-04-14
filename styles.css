@@ -1,5 +1,23 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── SKIP-NAV — accessibility: visible only on focus ── */
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 12px;
+  padding: 8px 14px;
+  background: var(--pink, #f2c4ce);
+  color: #0a0a0a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-radius: 3px;
+  z-index: 100000;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 12px; outline: none; }
+
 :root {
   --bg: #0a0a0a;
   --text: #ebebeb;
@@ -186,7 +204,7 @@ header {
   color: var(--dim);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin-bottom: 24px;
+  margin: 0 0 24px;
 }
 
 /* ── PROJECTS — editorial typographic blocks ── */
@@ -259,6 +277,7 @@ header {
   color: var(--text);
   letter-spacing: 0.005em;
   line-height: 1.4;
+  margin: 0;
   transition: transform 0.3s ease;
 }
 .project-card:hover .project-name { transform: translateX(3px); }

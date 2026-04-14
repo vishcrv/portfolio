@@ -4,7 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a0a0a">
-<title>vishnu cv</title>
+
+<!-- ══════════════ SEO ══════════════ -->
+<title>Vishnu C.V. — Backend & AI Engineer | VIT Chennai</title>
+<meta name="description" content="Backend and AI engineer building with Python, FastAPI, and LLMs. Projects in agentic RAG, LLM routing, and full-stack systems. Grand Finalist HackRx 6.0 (top 1 / 30,000+).">
+<meta name="keywords" content="Vishnu CV, backend engineer, AI developer, FastAPI, Python, LLM, VIT Chennai, portfolio, software engineer, HackRx finalist">
+<meta name="author" content="Vishnu C.V.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wishno.me/">
+
+<!-- Open Graph (LinkedIn, WhatsApp, Slack, Discord previews) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vishnu C.V. — Backend & AI Engineer">
+<meta property="og:description" content="Backend and AI engineer. Grand Finalist HackRx 6.0 (top 1 / 30,000+). Building with FastAPI, LangChain, and Next.js.">
+<meta property="og:url" content="https://wishno.me/">
+<meta property="og:image" content="https://wishno.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Vishnu C.V.">
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@canisbluffy">
+<meta name="twitter:creator" content="@canisbluffy">
+<meta name="twitter:title" content="Vishnu C.V. — Backend & AI Engineer">
+<meta name="twitter:description" content="Backend and AI engineer. Grand Finalist HackRx 6.0 (top 1 / 30,000+).">
+<meta name="twitter:image" content="https://wishno.me/og-image.png">
+
+<!-- Structured data: Person -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Vishnu C.V.",
+  "url": "https://wishno.me/",
+  "jobTitle": "Backend & AI Engineer",
+  "description": "Backend and AI engineer specialising in LLM systems, FastAPI, and full-stack development. Undergraduate at VIT Chennai.",
+  "email": "vishnuvenkatcrv@gmail.com",
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Vellore Institute of Technology, Chennai"
+  },
+  "sameAs": [
+    "https://github.com/vishcrv",
+    "https://linkedin.com/in/vishnu-c-v-1a85b7293",
+    "https://x.com/canisbluffy",
+    "https://letterboxd.com/babayaga06/"
+  ],
+  "knowsAbout": [
+    "Python", "FastAPI", "Node.js", "Next.js", "LangChain", "Qdrant",
+    "Playwright", "DistilBERT", "Whisper", "IndexedDB",
+    "Backend Development", "Large Language Models", "Machine Learning"
+  ]
+}
+</script>
+<!-- ══════════════════════════════════ -->
+
 <link rel="icon" type="image/png" href="imgs/favicon.png">
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
@@ -386,6 +441,9 @@ body:has(.project-card:hover) .cursor-ring {
 </head>
 <body>
 
+<!-- skip-nav for keyboard/screen-reader users -->
+<a href="#main-content" class="skip-link">skip to main content</a>
+
 <!-- ── LOADER ── -->
 <div id="loader">
   <div class="loader-bar-wrap">
@@ -440,7 +498,7 @@ body:has(.project-card:hover) .cursor-ring {
 
   <div class="hero-content" id="heroContent">
     <h1 class="hero-name">Vishnu CV</h1>
-    <p class="hero-desig">aspiring swe, undergraduate @ vit chennai</p>
+    <p class="hero-desig">backend &amp; ai engineer · undergraduate @ vit chennai</p>
   </div>
 
   <div class="hero-scroll">scroll</div>
@@ -449,7 +507,8 @@ body:has(.project-card:hover) .cursor-ring {
 <!-- ═══════════════════════════════════════
      MAIN CONTENT
 ════════════════════════════════════════ -->
-<div class="wrap" id="mainWrap">
+<main class="wrap" id="mainWrap" role="main">
+<span id="main-content" tabindex="-1" aria-hidden="true"></span>
 
   <!-- HEADER — social icons only, name/designation now live in hero -->
   <header class="reveal">
@@ -521,12 +580,12 @@ body:has(.project-card:hover) .cursor-ring {
   <div class="grid">
 
     <div class="projects">
-      <div class="section-title">projects</div>
+      <h2 class="section-title">projects</h2>
 
       <a href="https://github.com/vishcrv/bajaj_Hackrx6.0_AI_agent" target="_blank" rel="noopener" class="project-card reveal" aria-label="Agentic RAG project on GitHub">
         <span class="project-index">01</span>
         <div class="project-header">
-          <span class="project-name">agentic rag — document & web automation system</span>
+          <h3 class="project-name">agentic rag — document & web automation system</h3>
           <span class="project-arrow" aria-hidden="true">↗</span>
         </div>
         <ul class="project-bullets">
@@ -540,7 +599,7 @@ body:has(.project-card:hover) .cursor-ring {
       <a href="https://github.com/vishcrv/tempLLM" target="_blank" rel="noopener" class="project-card reveal" aria-label="tempLLM project on GitHub">
         <span class="project-index">02</span>
         <div class="project-header">
-          <span class="project-name">tempLLM — browser-bridged llm api</span>
+          <h3 class="project-name">tempLLM — browser-bridged llm api</h3>
           <span class="project-arrow" aria-hidden="true">↗</span>
         </div>
         <ul class="project-bullets">
@@ -553,7 +612,7 @@ body:has(.project-card:hover) .cursor-ring {
       <a href="https://github.com/vishcrv/router" target="_blank" rel="noopener" class="project-card reveal" aria-label="Adaptive LLM Router project on GitHub">
         <span class="project-index">03</span>
         <div class="project-header">
-          <span class="project-name">adaptive llm router</span>
+          <h3 class="project-name">adaptive llm router</h3>
           <span class="project-arrow" aria-hidden="true">↗</span>
         </div>
         <ul class="project-bullets">
@@ -566,7 +625,7 @@ body:has(.project-card:hover) .cursor-ring {
       <a href="https://github.com/vishcrv/iris" target="_blank" rel="noopener" class="project-card reveal" aria-label="Iris project on GitHub">
         <span class="project-index">04</span>
         <div class="project-header">
-          <span class="project-name">iris — ai meeting summarizer</span>
+          <h3 class="project-name">iris — ai meeting summarizer</h3>
           <span class="project-arrow" aria-hidden="true">↗</span>
         </div>
         <ul class="project-bullets">
@@ -597,7 +656,7 @@ body:has(.project-card:hover) .cursor-ring {
 
   <!-- EXPERIENCE -->
   <section class="achievements-section reveal" id="experience">
-    <div class="section-title">experience</div>
+    <h2 class="section-title">experience</h2>
     <div class="achievement-item">
       <span><strong><span class="stat-number" data-count="0" data-suffix="Full Stack Developer Intern">Full Stack Developer Intern</span> — Daira EdTech</strong> <span class="ach-date">Jul – Sep 2025</span><br>engineered <span class="stat-number" data-count="8" data-suffix="+">8+</span> REST endpoints · architected full-stack features using React + FastAPI for the UPSC Yantra platform · improved data retrieval efficiency and reduced API response overhead.</span>
     </div>
@@ -608,7 +667,7 @@ body:has(.project-card:hover) .cursor-ring {
 
   <!-- ACHIEVEMENTS -->
   <section class="achievements-section reveal" id="achievements">
-    <div class="section-title">achievements</div>
+    <h2 class="section-title">achievements</h2>
     <div class="achievement-item">
       <span><strong>HackRx 6.0 (Bajaj Finserv)</strong> — <span class="stat-number" data-count="0" data-suffix="Grand Finalist">Grand Finalist</span> · ranked <span class="stat-number" data-count="1" data-suffix="st in phase 1">top 1</span> among <span class="stat-number" data-count="30000" data-suffix="+ registrations">30,000+</span>.</span>
     </div>
@@ -620,7 +679,7 @@ body:has(.project-card:hover) .cursor-ring {
   <!-- TERMINAL -->
   <div class="vterm-wrap reveal" id="terminal">
     <div class="vterm-label">// terminal</div>
-    <div class="vterm-window" id="vtermWindow">
+    <div class="vterm-window" id="vtermWindow" role="application" aria-label="Interactive terminal emulator — type commands to explore the portfolio">
       <div class="vterm-bar">
         <span class="vt-dot red"></span>
         <span class="vt-dot yel"></span>
@@ -643,7 +702,7 @@ body:has(.project-card:hover) .cursor-ring {
     </div>
   </div>
 
-</div><!-- /wrap -->
+</main><!-- /mainWrap -->
 
 <!-- WAVE TRANSITION SECTION — full bleed, outside wrap -->
 <!-- dot-matrix rendering of the name — lives where wave used to be -->
