@@ -3,23 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
 <title>vishnu cv</title>
 <link rel="icon" type="image/png" href="imgs/favicon.png">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-<!-- Clash Display — individual weight OTF files in /fonts/ -->
+<!-- Clash Display — only used weights -->
 <style>
-@font-face {
-  font-family: 'ClashDisplay';
-  src: url('fonts/ClashDisplay-Extralight.otf') format('opentype');
-  font-weight: 200;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ClashDisplay';
-  src: url('fonts/ClashDisplay-Light.otf') format('opentype');
-  font-weight: 300;
-  font-display: swap;
-}
 @font-face {
   font-family: 'ClashDisplay';
   src: url('fonts/ClashDisplay-Regular.otf') format('opentype');
@@ -30,18 +20,6 @@
   font-family: 'ClashDisplay';
   src: url('fonts/ClashDisplay-Medium.otf') format('opentype');
   font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ClashDisplay';
-  src: url('fonts/ClashDisplay-Semibold.otf') format('opentype');
-  font-weight: 600;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ClashDisplay';
-  src: url('fonts/ClashDisplay-Bold.otf') format('opentype');
-  font-weight: 700;
   font-display: swap;
 }
 </style>
@@ -129,6 +107,11 @@ body:has(.project-card:hover) .cursor-ring {
 }
 @media (pointer: coarse) {
   .cursor-dot, .cursor-ring { display: none; }
+  .project-card:active { transform: scale(0.98); transition: transform 0.1s; }
+}
+@media (pointer: fine) {
+  html, body, body * { cursor: none; }
+  a, button, input, textarea, select, [role="button"], .project-card { cursor: none; }
 }
 
 /* ── HERO ── */
@@ -139,6 +122,16 @@ body:has(.project-card:hover) .cursor-ring {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+
+.hero-name {
+  will-change: transform, opacity, text-shadow, filter;
+}
+
+#mainWrap {
+  position: relative;
+  will-change: transform, clip-path, opacity, filter;
 }
 
 .hero-img {
@@ -153,6 +146,97 @@ body:has(.project-card:hover) .cursor-ring {
   background-image: url('imgs/hero.jpg');
   /* slight scale for parallax headroom */
   transform: scale(1.08);
+  z-index: 1;
+}
+
+/* ── MARQUEES — two trains behind hero, revealed as image fades ── */
+.hero-marquees {
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+.hero-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.hero-marquee-track {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+}
+.hero-marquee-track span {
+  font-family: 'ClashDisplay', sans-serif;
+  font-weight: 500;
+  font-size: clamp(3rem, 10vw, 9rem);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: rgba(242, 196, 206, 0.18);
+  padding: 0 0.35em;
+  mix-blend-mode: screen;
+  line-height: 1;
+  display: inline-block;
+}
+.hero-marquee-track .dot {
+  color: rgba(242, 196, 206, 0.34);
+  padding: 0 0.15em;
+}
+
+/* main line — left→right */
+.hero-marquee-track-lr {
+  animation: heroMarqueeLR 18s linear infinite;
+}
+@keyframes heroMarqueeLR {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0);    }
+}
+
+/* counter line — smaller, fainter, right→left */
+.hero-marquee-sub .hero-marquee-track span {
+  font-size: clamp(1.2rem, 3.2vw, 2.6rem);
+  color: rgba(242, 196, 206, 0.11);
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+.hero-marquee-sub .hero-marquee-track .dot {
+  color: rgba(242, 196, 206, 0.22);
+}
+.hero-marquee-track-rl {
+  animation: heroMarqueeRL 26s linear infinite;
+}
+@keyframes heroMarqueeRL {
+  from { transform: translateX(0);    }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── CORNER TICKS — editorial registration marks ── */
+.hero-tick {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(235, 235, 235, 0.28);
+  z-index: 4;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+.hero-tick-tl { top: 22px; left: 22px; }
+.hero-tick-tr { top: 22px; right: 22px; }
+.hero-tick-bl { bottom: 22px; left: 22px; }
+.hero-tick-br { bottom: 22px; right: 22px; }
+@media (max-width: 600px) {
+  .hero-tick { font-size: 10px; }
+  .hero-tick-tl, .hero-tick-tr { top: 14px; }
+  .hero-tick-bl, .hero-tick-br { bottom: 14px; }
+  .hero-tick-tl, .hero-tick-bl { left: 14px; }
+  .hero-tick-tr, .hero-tick-br { right: 14px; }
 }
 
 
@@ -255,13 +339,6 @@ body:has(.project-card:hover) .cursor-ring {
   transform: translateY(0);
 }
 
-/* ── 3D CARD TILT ── */
-.project-card {
-  transform-style: preserve-3d;
-  transition: transform 0.1s ease, border-color 0.2s;
-  will-change: transform;
-}
-
 /* ── COUNT UP ── */
 .stat-number {
   font-family: 'ClashDisplay', sans-serif;
@@ -277,131 +354,33 @@ body:has(.project-card:hover) .cursor-ring {
   font-weight: 400;
 }
 
-/* ── WAVE TRANSITION SECTION ── */
-.wave-section {
+/* ── DOT-MATRIX NAME ── rendered via canvas */
+.dotmatrix-section {
   position: relative;
-  height: 320px;
+  width: 100%;
+  padding: 80px 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 
-.wave-bg {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url('imgs/wave.jpg');
-  background-size: cover;
-  background-position: center center;
-  will-change: transform;
-  filter: grayscale(15%) brightness(0.75);
+#dotmatrixCanvas {
+  display: block;
+  max-width: 92%;
+  height: auto;
+  opacity: 0.78;
 }
 
-/* 4-sided fade */
-.wave-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom, #0a0a0a 0%, transparent 32%),
-    linear-gradient(to top,    #0a0a0a 0%, transparent 32%),
-    linear-gradient(to right,  #0a0a0a 0%, transparent 18%),
-    linear-gradient(to left,   #0a0a0a 0%, transparent 18%);
-  z-index: 2;
-  pointer-events: none;
+@media (max-width: 600px) {
+  .dotmatrix-section { padding: 56px 0 24px; }
+  #dotmatrixCanvas { max-width: 94%; }
 }
 
-/* smooth pink-to-image transition at top */
-.wave-section::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 55%;
-  background: linear-gradient(
-    to bottom,
-    rgba(40, 0, 26, 0.85) 0%,
-    rgba(22, 0, 11, 0.5)  30%,
-    transparent           100%
-  );
-  z-index: 3;
-  pointer-events: none;
-}
-
-/* pink tint overlay */
-.wave-tint {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 20%, rgba(91,0,59,0.55) 0%, transparent 60%);
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* ── FOOTER REDESIGN ── */
-.site-footer {
-  position: relative;
-  z-index: 10;
-  padding: 70px 0 44px;
-  margin-top: -140px;
-  background: linear-gradient(to bottom, transparent 0%, transparent 20%, #0a0a0a 70%);
-}
-
-.footer-inner {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 40px;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 48px;
-}
-
-.footer-quote {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
-  font-style: italic;
-  color: var(--dim);
-  line-height: 1.6;
-}
-
-.footer-socials {
-  display: flex;
-  gap: 28px;
-  justify-content: center;
-}
-
-.footer-socials a {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
-  color: var(--dim);
-  text-decoration: none;
-  letter-spacing: 0.06em;
-  transition: color 0.15s;
-  border: none;
-}
-.footer-socials a:hover { color: var(--pink); }
-
-.footer-meta {
-  text-align: right;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
-  color: var(--dim);
-  line-height: 1.7;
-}
-
-.footer-name {
-  cursor: pointer;
-  transition: color 0.15s;
-}
-.footer-name:hover { color: var(--pink); }
-
+/* footer styles live in styles.css — don't override here */
 
 @media (max-width: 600px) {
   .hero-name { mix-blend-mode: normal; }
-  .footer-inner {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 20px;
-    padding: 0 24px;
-  }
-  .footer-meta { text-align: center; }
-  .footer-quote { text-align: center; }
 }
 </style>
 </head>
@@ -423,10 +402,41 @@ body:has(.project-card:hover) .cursor-ring {
      HERO — cinematic opener
 ════════════════════════════════════════ -->
 <section class="hero" id="hero">
+  <div class="hero-marquees" aria-hidden="true">
+    <div class="hero-marquee">
+      <div class="hero-marquee-track hero-marquee-track-lr">
+        <span>BACKEND ENGINEER</span><span class="dot">·</span>
+        <span>OPEN TO INTERN</span><span class="dot">·</span>
+        <span>BACKEND ENGINEER</span><span class="dot">·</span>
+        <span>OPEN TO INTERN</span><span class="dot">·</span>
+      </div>
+    </div>
+    <div class="hero-marquee hero-marquee-sub">
+      <div class="hero-marquee-track hero-marquee-track-rl">
+        <span>PYTHON</span><span class="dot">·</span>
+        <span>FASTAPI</span><span class="dot">·</span>
+        <span>NODE.JS</span><span class="dot">·</span>
+        <span>NEXT.JS</span><span class="dot">·</span>
+        <span>POSTGRES</span><span class="dot">·</span>
+        <span>DOCKER</span><span class="dot">·</span>
+        <span>PYTHON</span><span class="dot">·</span>
+        <span>FASTAPI</span><span class="dot">·</span>
+        <span>NODE.JS</span><span class="dot">·</span>
+        <span>NEXT.JS</span><span class="dot">·</span>
+        <span>POSTGRES</span><span class="dot">·</span>
+        <span>DOCKER</span><span class="dot">·</span>
+      </div>
+    </div>
+  </div>
   <div class="hero-img hero-img-1" id="heroImg1"></div>
   <div class="hero-overlay" id="heroOverlay"></div>
   <div class="hero-darken"></div>
   <div class="hero-grain"></div>
+
+  <span class="hero-tick hero-tick-tl">+</span>
+  <span class="hero-tick hero-tick-tr">+</span>
+  <span class="hero-tick hero-tick-bl">+</span>
+  <span class="hero-tick hero-tick-br">+</span>
 
   <div class="hero-content" id="heroContent">
     <h1 class="hero-name">Vishnu CV</h1>
@@ -439,32 +449,44 @@ body:has(.project-card:hover) .cursor-ring {
 <!-- ═══════════════════════════════════════
      MAIN CONTENT
 ════════════════════════════════════════ -->
-<div class="wrap">
+<div class="wrap" id="mainWrap">
 
   <!-- HEADER — social icons only, name/designation now live in hero -->
   <header class="reveal">
     <div class="top-section">
+      <!-- primary: gmail, github, linkedin -->
       <div class="linkheader">
+        <!-- Gmail -->
+        <a href="mailto:vishnuvenkatcrv@gmail.com" aria-label="Gmail">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon">
+            <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+          </svg>
+        </a>
         <!-- GitHub -->
-        <a href="https://github.com/vishcrv" aria-label="GitHub">
+        <a href="https://github.com/vishcrv" aria-label="GitHub" target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon">
             <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/>
           </svg>
         </a>
         <!-- LinkedIn -->
-        <a href="https://www.linkedin.com/in/vishnu-c-v-1a85b7293/" aria-label="LinkedIn">
+        <a href="https://www.linkedin.com/in/vishnu-c-v-1a85b7293/" aria-label="LinkedIn" target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon">
             <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
           </svg>
         </a>
+      </div>
+      <!-- hairline separator -->
+      <div class="icon-sep" aria-hidden="true"></div>
+      <!-- secondary: twitter, letterboxd -->
+      <div class="linkheader secondary">
         <!-- X / Twitter -->
-        <a href="https://x.com/canisbluffy" aria-label="X / Twitter">
+        <a href="https://x.com/canisbluffy" aria-label="X / Twitter" target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon">
             <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
           </svg>
         </a>
         <!-- Letterboxd -->
-        <a href="https://letterboxd.com/babayaga06/" aria-label="Letterboxd">
+        <a href="https://letterboxd.com/babayaga06/" aria-label="Letterboxd" target="_blank">
           <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon">
             <path d="M8.224 14.352a4.447 4.447 0 0 1 -3.775 2.092C1.992 16.444 0 14.454 0 12s1.992 -4.444 4.45 -4.444c1.592 0 2.988 0.836 3.774 2.092 -0.427 0.682 -0.673 1.488 -0.673 2.352s0.246 1.67 0.673 2.352zM15.101 12c0 -0.864 0.247 -1.67 0.674 -2.352 -0.786 -1.256 -2.183 -2.092 -3.775 -2.092s-2.989 0.836 -3.775 2.092c0.427 0.682 0.674 1.488 0.674 2.352s-0.247 1.67 -0.674 2.352c0.786 1.256 2.183 2.092 3.775 2.092s2.989 -0.836 3.775 -2.092A4.42 4.42 0 0 1 15.1 12zm4.45 -4.444a4.447 4.447 0 0 0 -3.775 2.092c0.427 0.682 0.673 1.488 0.673 2.352s-0.246 1.67 -0.673 2.352a4.447 4.447 0 0 0 3.775 2.092C22.008 16.444 24 14.454 24 12s-1.992 -4.444 -4.45 -4.444z" fill="currentColor"/>
           </svg>
@@ -501,92 +523,73 @@ body:has(.project-card:hover) .cursor-ring {
     <div class="projects">
       <div class="section-title">projects</div>
 
-      <div class="project-card reveal">
+      <a href="https://github.com/vishcrv/bajaj_Hackrx6.0_AI_agent" target="_blank" rel="noopener" class="project-card reveal" aria-label="Agentic RAG project on GitHub">
+        <span class="project-index">01</span>
         <div class="project-header">
-          <span class="project-name">agentic rag — intelligent doc & web automation</span>
-          <a href="https://github.com/vishcrv/bajaj_Hackrx6.0_AI_agent" class="project-link" target="_blank">
-            <svg viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          </a>
+          <span class="project-name">agentic rag — document & web automation system</span>
+          <span class="project-arrow" aria-hidden="true">↗</span>
         </div>
         <ul class="project-bullets">
-          <li>hybrid AI system with LLM orchestration, routing between static doc analysis and dynamic web automation via rule-based + LLM decision logic.</li>
-          <li>multi-modal doc processor — PDFs, DOCX, PPTX, EML with OCR · 95%+ task accuracy.</li>
-          <li>semantic caching reduced query response time by 80% while maintaining vector search precision.</li>
+          <li>architected hybrid AI system routing between document analysis and real-time web automation using LLM orchestration and rule-based decision logic.</li>
+          <li>deployed multi-modal processor for PDFs, DOCX, PPTX, and EML with OCR · 95%+ task accuracy.</li>
+          <li>optimized semantic caching, reducing query response time by 80% while maintaining vector search precision.</li>
         </ul>
-        <div class="tags">
-          <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">LangChain</span>
-          <span class="tag">Qdrant</span><span class="tag">Playwright</span><span class="tag">SentenceTransformers</span><span class="tag">Pytesseract</span>
-        </div>
-      </div>
+        <div class="project-stack">python · fastapi · langchain · qdrant · playwright · sentencetransformers · pytesseract</div>
+      </a>
 
-      <div class="project-card reveal">
+      <a href="https://github.com/vishcrv/tempLLM" target="_blank" rel="noopener" class="project-card reveal" aria-label="tempLLM project on GitHub">
+        <span class="project-index">02</span>
         <div class="project-header">
-          <span class="project-name">dynamic llm router</span>
-          <a href="https://github.com/vishcrv/router" class="project-link" target="_blank">
-            <svg viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          </a>
+          <span class="project-name">tempLLM — browser-bridged llm api</span>
+          <span class="project-arrow" aria-hidden="true">↗</span>
+        </div>
+        <ul class="project-bullets">
+          <li>published npm CLI tool bridging free browser LLM sessions to a local REST API via CDP, removing API-key costs.</li>
+          <li>engineered FastAPI backend with streaming SSE, session management, and dual connection modes (CDP + headless Playwright) across linux, macOS, and windows.</li>
+        </ul>
+        <div class="project-stack">python · fastapi · node.js · playwright · chrome devtools protocol</div>
+      </a>
+
+      <a href="https://github.com/vishcrv/router" target="_blank" rel="noopener" class="project-card reveal" aria-label="Adaptive LLM Router project on GitHub">
+        <span class="project-index">03</span>
+        <div class="project-header">
+          <span class="project-name">adaptive llm router</span>
+          <span class="project-arrow" aria-hidden="true">↗</span>
         </div>
         <ul class="project-bullets">
           <li>fine-tuned DistilBERT on 9,500+ labeled prompts · 93% classification accuracy across 5 LLM models.</li>
-          <li>async FastAPI backend processing real-time requests with sub-100ms latency for model selection.</li>
-          <li>scalable routing engine dynamically selecting optimal LLM based on prompt classification.</li>
+          <li>implemented async FastAPI backend with sub-100ms model-selection latency for real-time request routing.</li>
         </ul>
-        <div class="tags">
-          <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">DistilBERT</span>
-          <span class="tag">HuggingFace</span><span class="tag">scikit-learn</span><span class="tag">OpenRouter API</span>
-        </div>
-      </div>
+        <div class="project-stack">python · fastapi · distilbert · scikit-learn · openrouter api</div>
+      </a>
 
-      <div class="project-card reveal">
+      <a href="https://github.com/vishcrv/iris" target="_blank" rel="noopener" class="project-card reveal" aria-label="Iris project on GitHub">
+        <span class="project-index">04</span>
         <div class="project-header">
           <span class="project-name">iris — ai meeting summarizer</span>
-          <a href="https://github.com/vishcrv/iris" class="project-link" target="_blank">
-            <svg viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          </a>
+          <span class="project-arrow" aria-hidden="true">↗</span>
         </div>
         <ul class="project-bullets">
-          <li>2-stage AI pipeline — Whisper for transcription + LLaMA 3.2 for intelligent summarization.</li>
-          <li>modular API architecture with offline-first functionality via client-side IndexedDB persistence.</li>
+          <li>delivered 2-stage AI pipeline — Whisper for transcription + LLaMA 3.2 for summarization.</li>
+          <li>designed offline-first modular API with client-side IndexedDB persistence and local state management.</li>
         </ul>
-        <div class="tags">
-          <span class="tag">Next.js</span><span class="tag">Whisper API</span><span class="tag">LLaMA 3.2</span>
-          <span class="tag">Tailwind</span><span class="tag">IndexedDB</span>
-        </div>
-      </div>
-
-      <div class="project-card reveal">
-        <div class="project-header">
-          <span class="project-name">secure jwt-auth todo app</span>
-          <a href="https://github.com/vishcrv/backend" class="project-link" target="_blank">
-            <svg viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          </a>
-        </div>
-        <ul class="project-bullets">
-          <li>JWT refresh tokens + bcrypt password hashing · role-based authorization + input validation.</li>
-          <li>SQLite schema with relational integrity · database transactions to enforce data integrity.</li>
-        </ul>
-        <div class="tags">
-          <span class="tag">Node.js</span><span class="tag">Express.js</span><span class="tag">SQLite</span>
-          <span class="tag">JWT</span><span class="tag">bcrypt</span>
-        </div>
-      </div>
+        <div class="project-stack">next.js · react · openai whisper · ollama (llama 3.2) · indexeddb</div>
+      </a>
     </div>
 
     <!-- SIDEBAR -->
     <div class="sidebar">
-      <div class="sidebar-block">
-        <div class="section-title">links</div>
+      <div class="sidebar-block sidebar-primary">
+        <a href="https://vishcrv.github.io/resume/" target="_blank" rel="noopener">resume ↗</a>
         <a href="blogs/">blogs</a>
-        <a href="mailto:vishnuvenkatcrv@gmail.com">gmail</a>
-        <a href="https://x.com/canisbluffy" target="_blank">twitter</a>
-        <a href="https://www.instagram.com/vishhhhnnu/" target="_blank">instagram</a>
-      </div>
-      <div class="sidebar-block">
-        <div class="section-title">sections</div>
-        <a href="#experience" onclick="smoothTo('experience',event)">experience</a>
         <a href="#achievements" onclick="smoothTo('achievements',event)">achievements</a>
         <a href="#terminal" onclick="smoothTo('terminal',event)">terminal</a>
-        <a href="https://drive.google.com/file/d/1N0mjZJMW4lXlvMBMkTxE2pG_mkJHOf4O/view?usp=drive_link" target="_blank">resume ↗</a>
+        
+        
+      </div>
+      <div class="sidebar-block">
+        <div class="block-label">more</div>
+        <a href="#experience" onclick="smoothTo('experience',event)">experience</a>
       </div>
     </div>
 
@@ -643,24 +646,24 @@ body:has(.project-card:hover) .cursor-ring {
 </div><!-- /wrap -->
 
 <!-- WAVE TRANSITION SECTION — full bleed, outside wrap -->
-<div class="wave-section" id="waveSection">
-  <div class="wave-bg" id="waveBg"></div>
-  <div class="wave-tint" id="waveTint"></div>
-</div>
+<!-- dot-matrix rendering of the name — lives where wave used to be -->
 
-<!-- FOOTER — outside wrap -->
+
+<!-- FOOTER — single row: quote · socials · name+©2026 -->
 <footer class="site-footer">
   <div class="footer-inner">
-    <div class="footer-quote">"they hate us cause they ain't us!"</div>
+    <p class="footer-quote">&ldquo;they hate us cause they ain&rsquo;t us!&rdquo;</p>
+
     <div class="footer-socials">
-      <a href="https://github.com/vishcrv" target="_blank">gh</a>
-      <a href="https://linkedin.com/in/vishnu-c-v-1a85b7293" target="_blank">li</a>
-      <a href="https://x.com/canisbluffy" target="_blank">tw</a>
-      <a href="https://instagram.com/vishhhhnnu" target="_blank">ig</a>
-      <a href="https://letterboxd.com/babayaga06/" target="_blank">lb</a>
+      <a href="mailto:vishnuvenkatcrv@gmail.com">gmail</a>
+      <a href="https://github.com/vishcrv" target="_blank" rel="noopener">github</a>
+      <a href="https://linkedin.com/in/vishnu-c-v-1a85b7293" target="_blank" rel="noopener">linkedin</a>
+      <a href="https://x.com/canisbluffy" target="_blank" rel="noopener">twitter</a>
     </div>
-    <div class="footer-meta">
-      <div class="footer-name" onclick="window.scrollTo({top:0,behavior:'smooth'})">vishnu cv</div>
+
+    <div class="footer-right">
+      <span class="footer-name" onclick="window.scrollTo({top:0,behavior:'smooth'})">vishnu cv</span>
+      <span class="footer-meta">© 2026</span>
     </div>
   </div>
 </footer>
@@ -671,6 +674,8 @@ body:has(.project-card:hover) .cursor-ring {
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── GSAP ScrollTrigger registration
 gsap.registerPlugin(ScrollTrigger);
+
+const PREFERS_REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ── LOADER
 (function initLoader() {
@@ -729,65 +734,137 @@ gsap.registerPlugin(ScrollTrigger);
   setTimeout(dismiss, 10000);
 })();
 
-// ── CINEMATIC HERO SCROLL STORY
+// ── HERO SCROLL — pinned image quietly dissolves into pink background
 (function initHero() {
-  const img1    = document.getElementById('heroImg1');
-  const overlay = document.getElementById('heroOverlay');
-  const content = document.getElementById('heroContent');
+  const img1       = document.getElementById('heroImg1');
+  const overlay    = document.getElementById('heroOverlay');
+  const darken     = document.querySelector('.hero-darken');
+  const grain      = document.querySelector('.hero-grain');
+  const scrollHint = document.querySelector('.hero-scroll');
+  const content    = document.getElementById('heroContent');
 
-  const tl = gsap.timeline({
+  if (PREFERS_REDUCED_MOTION) {
+    gsap.set(img1, { scale: 1, opacity: 1 });
+    return;
+  }
+
+  // single scrubbed timeline — text leaves first, image dissolves last
+  gsap.timeline({
     scrollTrigger: {
       trigger: '#hero',
       start: 'top top',
-      end: '+=220%',       // 2.2x viewport of scroll distance pinned
+      end: '+=85%',
       pin: true,
-      scrub: 1.2,
+      scrub: 0.8,
       anticipatePin: 1,
     }
-  });
+  })
+    // text/hint fade out over first 45% — well before the image leaves
+    .to(content,    { y: -80, opacity: 0, ease: 'power2.in', duration: 0.45 }, 0)
+    .to(scrollHint, { opacity: 0, ease: 'none',              duration: 0.20 }, 0)
+    // image, darken, grain fade together over last 55% — no seam, no cut
+    .to(img1,   { opacity: 0, ease: 'power1.inOut', duration: 0.55 }, 0.45)
+    .to(darken, { opacity: 0, ease: 'power1.inOut', duration: 0.55 }, 0.45)
+    .to(grain,  { opacity: 0, ease: 'power1.inOut', duration: 0.55 }, 0.45);
 
-  // 0–25%: name content drifts up + fades, overlay starts
-  tl.to(content, { y: -40, opacity: 0, ease: 'none' }, 0)
-    .to(overlay,  { opacity: 0.55, ease: 'none' }, 0)
+  // very subtle zoom-out — gives the image a tiny breath
+  gsap.fromTo(img1,
+    { scale: 1.08 },
+    {
+      scale: 1.02,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: '+=85%',
+        scrub: 1,
+      }
+    }
+  );
 
-  // 0–30%: img1 subtle parallax scale
-    .to(img1, { scale: 1.0, ease: 'none' }, 0)
-
-  // 30–70%: img1 fades out fully
-    .to(img1,    { opacity: 0, ease: 'none' }, 0.3)
-
-  // 50–100%: overlay goes full black
-    .to(overlay, { opacity: 1, ease: 'none' }, 0.5);
+  gsap.set(overlay, { opacity: 0 });
 })();
 
-// ── WAVE SECTION SCROLL
-(function initWave() {
-  const bg   = document.getElementById('waveBg');
-  const tint = document.getElementById('waveTint');
-  if (!bg) return;
+// ── DOT-MATRIX NAME — canvas-based, samples text into uniform dot grid
+(function initDotMatrix() {
+  const canvas = document.getElementById('dotmatrixCanvas');
+  if (!canvas) return;
 
-  // parallax on the bg image
-  gsap.to(bg, {
-    yPercent: 18,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#waveSection',
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: 1.5,
-    }
-  });
+  const TEXT        = 'VISHNU CV';
+  const COLOR       = '#f2c4ce';
+  const FONT_FAMILY = "'ClashDisplay', sans-serif";
+  const FONT_WEIGHT = 500;
 
-  // tint fades out as you scroll through
-  gsap.to(tint, {
-    opacity: 0,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#waveSection',
-      start: 'top 60%',
-      end: 'center center',
-      scrub: 1,
+  function render() {
+    const dpr = window.devicePixelRatio || 1;
+    const vw  = Math.min(window.innerWidth, 1280);
+
+    // scale font to viewport, clamp min/max
+    const fontSize  = Math.min(Math.max(vw * 0.13, 54), 172);
+    const dotRadius = Math.max(fontSize / 62, 1.3);
+    const step      = dotRadius * 2.55;  // center-to-center spacing
+
+    // ── offscreen: draw text solid, then sample
+    const sample = document.createElement('canvas');
+    const sctx   = sample.getContext('2d');
+    sctx.font    = `${FONT_WEIGHT} ${fontSize}px ${FONT_FAMILY}`;
+    const metrics = sctx.measureText(TEXT);
+    const padX   = fontSize * 0.12;
+    const textW  = Math.ceil(metrics.width + padX * 2);
+    const textH  = Math.ceil(fontSize * 1.15);
+
+    sample.width  = textW;
+    sample.height = textH;
+    sctx.font         = `${FONT_WEIGHT} ${fontSize}px ${FONT_FAMILY}`;
+    sctx.fillStyle    = '#fff';
+    sctx.textBaseline = 'middle';
+    sctx.fillText(TEXT, padX, textH / 2);
+
+    const data = sctx.getImageData(0, 0, textW, textH).data;
+
+    // ── visible canvas: retina-crisp
+    canvas.width        = textW * dpr;
+    canvas.height       = textH * dpr;
+    canvas.style.width  = textW + 'px';
+    canvas.style.height = textH + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, textW, textH);
+    ctx.fillStyle = COLOR;
+
+    const cols = Math.floor(textW / step);
+    const rows = Math.floor(textH / step);
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = c * step + step / 2;
+        const y = r * step + step / 2;
+        const px = Math.floor(x);
+        const py = Math.floor(y);
+        if (px >= textW || py >= textH) continue;
+        const idx = (py * textW + px) * 4;
+        const alpha = data[idx + 3];
+        if (alpha > 128) {
+          ctx.beginPath();
+          ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
     }
+  }
+
+  // render once ClashDisplay is loaded (font-face uses swap)
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load('500 100px "ClashDisplay"').then(render).catch(render);
+  } else {
+    setTimeout(render, 400);
+  }
+
+  // responsive: re-render on resize, debounced
+  let t;
+  window.addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(render, 140);
   });
 })();
 
@@ -816,22 +893,31 @@ function smoothTo(id, e) {
   items.forEach(el => obs.observe(el));
 })();
 
-// ── 3D CARD TILT
-(function initTilt() {
-  document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const cx = rect.left + rect.width  / 2;
-      const cy = rect.top  + rect.height / 2;
-      const dx = (e.clientX - cx) / (rect.width  / 2);
-      const dy = (e.clientY - cy) / (rect.height / 2);
-      card.style.transform = `perspective(800px) rotateY(${dx * 4}deg) rotateX(${-dy * 4}deg) translateZ(4px)`;
+// ── SIDEBAR ACTIVE SECTION HIGHLIGHT
+(function initSidebarActive() {
+  const sectionIds = ['experience', 'achievements', 'terminal'];
+  const linkMap = {};
+  document.querySelectorAll('.sidebar a[href^="#"]').forEach(a => {
+    const id = a.getAttribute('href').slice(1);
+    if (id) linkMap[id] = a;
+  });
+  if (!Object.keys(linkMap).length) return;
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && linkMap[e.target.id]) {
+        Object.values(linkMap).forEach(a => a.classList.remove('active'));
+        linkMap[e.target.id].classList.add('active');
+      }
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg) translateZ(0px)';
-    });
+  }, { threshold: 0.25, rootMargin: '-48px 0px -40% 0px' });
+
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) obs.observe(el);
   });
 })();
+
 
 // ── COUNT-UP NUMBERS
 (function initCountUp() {
@@ -848,6 +934,12 @@ function smoothTo(id, e) {
       // data-count="0" = text label only — just set text, no opacity games
       if (target === 0) {
         el.textContent = suffix;
+        return;
+      }
+
+      if (PREFERS_REDUCED_MOTION) {
+        el.textContent = (suffix.trim().startsWith('₹') ? '₹' : '') + target.toLocaleString() +
+          (suffix.startsWith('+') || suffix.startsWith('M') || suffix.startsWith('%') || suffix.startsWith('st') ? suffix : suffix.trim().startsWith('₹') ? '' : ' ' + suffix).trim();
         return;
       }
 
@@ -1059,7 +1151,7 @@ function smoothTo(id, e) {
       { t:'link',  v:'github   →  github.com/vishcrv',                   href:'https://github.com/vishcrv' },
       { t:'link',  v:'linkedin →  linkedin.com/in/vishnu-c-v-1a85b7293', href:'https://linkedin.com/in/vishnu-c-v-1a85b7293' },
       { t:'link',  v:'twitter  →  x.com/canisbluffy',                    href:'https://x.com/canisbluffy' },
-      { t:'link',  v:'insta    →  instagram.com/vishhhhnnu',              href:'https://instagram.com/vishhhhnnu' },
+      { t:'link',  v:'letterbxd →  letterboxd.com/babayaga06',            href:'https://letterboxd.com/babayaga06/' },
       { t:'spacer' },
     ];
     items.forEach(function (l, i) {
@@ -1201,7 +1293,7 @@ function smoothTo(id, e) {
       setTimeout(() => window.open('https://github.com/vishcrv', '_blank'), 400);
     },
     resume: function () {
-      const PDF = 'https://drive.google.com/file/d/1N0mjZJMW4lXlvMBMkTxE2pG_mkJHOf4O/view?usp=drive_link';
+      const PDF = 'https://vishcrv.github.io/resume/';
       printLines([
         { t:'spacer' },
         { t:'bright', v:'  vishnu cv  ·  resume' },
